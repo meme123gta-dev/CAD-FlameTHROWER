@@ -1,0 +1,23 @@
+{
+  "units": "mm",
+  "defaults": {
+    "general_clearance_mm": 0.30,
+    "sliding_clearance_mm": 0.40,
+    "rotating_clearance_mm": 0.45,
+    "snap_clearance_mm": 0.25,
+    "press_fit_offset_mm": -0.10,
+    "screw_clearance_mm": 0.20,
+    "insert_clearance_mm": 0.05,
+    "lid_fit_clearance_mm": 0.35,
+    "min_wall_mm": 1.6,
+    "structural_wall_mm": 2.4,
+    "boss_wall_mm": 2.0,
+    "fillet_mm": 1.0,
+    "chamfer_mm": 0.5
+  },
+  "notes": [
+    "These are starting assumptions for FDM with a 0.4 mm nozzle.",
+    "Create fit-test coupons before committing critical mating dimensions.",
+    "Supplier-dependent insert hole sizes must be confirmed per insert brand."
+  ]
+}

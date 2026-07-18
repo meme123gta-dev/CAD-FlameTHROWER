@@ -1,0 +1,13 @@
+{
+  "units": "mm",
+  "default_printer": "generic_fdm_0_4",
+  "printers": {
+    "generic_fdm_0_4": {
+      "process": "FDM",
+      "nozzle_diameter_mm": 0.4,
+      "layer_height_mm": 0.2,
+      "preferred_wall_widths_mm": [1.2, 1.6, 2.0, 2.4, 3.2],
+      "notes": "Default starting printer profile for consumer product prototypes."
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "build_timestamp_utc": "20260718T001347Z",
+  "git_commit": "c093424",
+  "product": "electronics_enclosure",
+  "revision": "a",
+  "parameters": {
+    "length_mm": 160.0,
+    "width_mm": 90.0,
+    "height_mm": 50.0,
+    "wall_thickness_mm": 2.4,
+    "floor_thickness_mm": 2.4,
+    "lid_thickness_mm": 3.2,
+    "corner_radius_mm": 6.0,
+    "lid_fit_clearance_mm": 0.35,
+    "lid_lip_height_mm": 4.0,
+    "lid_lip_thickness_mm": 2.0,
+    "insert_hole_diameter_mm": 4.2,
+    "screw_clearance_diameter_mm": 3.4,
+    "screw_counterbore_diameter_mm": 6.2,
+    "screw_counterbore_depth_mm": 3.2,
+    "boss_wall_mm": 2.0,
+    "boss_height_mm": 10.0,
+    "boss_inset_from_inner_mm": 1.0,
+    "cable_port_width_mm": 14.0,
+    "cable_port_height_mm": 8.0,
+    "cable_port_bottom_offset_mm": 10.0,
+    "alignment_pin_diameter_mm": 1.6,
+    "alignment_pin_height_mm": 2.5,
+    "alignment_socket_clearance_mm": 0.25,
+    "outer_fillet_mm": 1.0,
+    "edge_chamfer_mm": 0.5,
+    "revision": "a"
+  },
+  "parts": {
+    "base": {
+      "solid_count": 1,
+      "volume_mm3": 88992.24263940901,
+      "bounding_box_mm": {
+        "x": 160.0,
+        "y": 90.0,
+        "z": 52.5
+      }
+    },
+    "lid": {
+      "solid_count": 1,
+      "volume_mm3": 49291.049783175775,
+      "bounding_box_mm": {
+        "x": 160.0,
+        "y": 90.0,
+        "z": 7.2
+      }
+    }
+  },
+  "exports": {
+    "base": {
+      "step": "exports/step/electronics_enclosure_base_default_rev_a.step",
+      "stl": "exports/stl/electronics_enclosure_base_default_rev_a.stl"
+    },
+    "lid": {
+      "step": "exports/step/electronics_enclosure_lid_default_rev_a.step",
+      "stl": "exports/stl/electronics_enclosure_lid_default_rev_a.stl"
+    }
+  },
+  "validation_status": "pass",
+  "warnings": [
+    "M3 heat-set insert hole diameter is supplier-dependent and must be confirmed.",
+    "PROTOTYPE ONLY \u2014 STRUCTURAL CAPACITY NOT VERIFIED",
+    "Lid fit clearance should be verified with a fit-test coupon on the target printer."
+  ],
+  "assumptions": [
+    "ASSUMPTION A1: Target process is FDM with a 0.4 mm nozzle.",
+    "ASSUMPTION A2: Default material is PETG unless overridden.",
+    "ASSUMPTION A3: Enclosure is for low-voltage electronics only."
+  ]
+}
