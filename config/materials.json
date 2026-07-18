@@ -1,0 +1,31 @@
+{
+  "units": "mm",
+  "materials": {
+    "PLA": {
+      "use_cases": ["visual prototypes", "indoor fixtures", "display models"],
+      "notes": "Avoid high-temperature and long-term load assumptions.",
+      "suggested_clearance_offset_mm": 0.0
+    },
+    "PETG": {
+      "use_cases": ["general housings", "moderate impact", "light outdoor use"],
+      "notes": "May need slightly larger fit clearances than PLA.",
+      "suggested_clearance_offset_mm": 0.05
+    },
+    "ABS": {
+      "use_cases": ["outdoor enclosures", "higher temperature cosmetic parts"],
+      "notes": "Account for warping and shrinkage; enclosed printer preferred.",
+      "suggested_clearance_offset_mm": 0.05
+    },
+    "ASA": {
+      "use_cases": ["outdoor UV-exposed cosmetic housings"],
+      "notes": "Similar print considerations to ABS.",
+      "suggested_clearance_offset_mm": 0.05
+    },
+    "NYLON": {
+      "use_cases": ["tough brackets", "hinges", "impact parts"],
+      "notes": "Moisture absorption affects dimensional stability.",
+      "suggested_clearance_offset_mm": 0.10
+    }
+  },
+  "default_material": "PETG"
+}

@@ -1,0 +1,20 @@
+{
+  "units": "mm",
+  "step": {
+    "enabled": true
+  },
+  "stl": {
+    "enabled": true,
+    "tolerances_mm": {
+      "draft": 0.15,
+      "normal": 0.05,
+      "fine": 0.02
+    },
+    "default_quality": "normal"
+  },
+  "3mf": {
+    "enabled": false,
+    "notes": "Enable when CadQuery/OCP exporter support is confirmed in the environment."
+  },
+  "filename_pattern": "{product}_{part}_{variant}_rev_{revision}.{ext}"
+}
