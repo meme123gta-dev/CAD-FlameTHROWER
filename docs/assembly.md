@@ -1,19 +1,20 @@
 # Assembly Notes
 
-## Product
+## Modules
 
-Low-voltage electronics enclosure, Revision A
+1. Print left/right halves for receiver, barrel, and stock (or full modules on a large bed).
+2. Join halves along the split plane (tape/adhesive for mockups; fasteners TBD).
+3. Align barrel to receiver +X face and stock to receiver -X face.
+4. Pack inert hardware into exclusion cavities:
+   - Tank through receiver top hatch
+   - Horizontal pump via forward side access
+   - Vertical pump via rear-left side access
+   - Batteries / low-voltage electronics via stock butt / top hatch
 
-## Mating Features
+## Exploded preview
 
-- Lid lip nests into base cavity with `lid_fit_clearance_mm`
-- Two alignment pins on the base engage sockets in the lid
-- Four M3 screw locations shared by base bosses and lid counterbores
+Use `src/assemblies/main_assembly.py` for a colored CadQuery assembly of the three modules.
 
-## Sequence
+## Exclusions
 
-See `specifications/assembly_requirements.md`.
-
-## Exploded Preview
-
-Use `src/assemblies/main_assembly.py` with `explode_gap_mm > 0` for visualization.
+Do not install fuel, ignition, combustion, or pressurized-gas systems.

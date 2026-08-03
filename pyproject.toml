@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "startup-cad"
+name = "havoc-water-gun-shell"
 version = "0.1.0"
-description = "Parametric CadQuery workspace for safe consumer product housings and fixtures"
+description = "Parametric CadQuery empty shell for a theatrical water-gun prop (Havoc-inspired)"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

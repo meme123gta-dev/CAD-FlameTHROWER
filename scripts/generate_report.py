@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from src.common.validation import ValidationResult
-from src.parts.enclosure import EnclosureParameters, parameters_dict
+from src.parts.water_gun_shell import WaterGunShellParameters, parameters_dict
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORTS_DIR = ROOT / "reports"
@@ -32,19 +32,20 @@ def _git_commit() -> str:
 
 def write_build_report(
     *,
-    params: EnclosureParameters,
-    base_validation: ValidationResult,
-    lid_validation: ValidationResult,
+    params: WaterGunShellParameters,
+    validations: dict[str, ValidationResult],
     exports: dict[str, dict[str, Path]],
+    envelope_mm: tuple[float, float, float] | None = None,
     warnings: list[str] | None = None,
 ) -> Path:
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     commit = _git_commit()
     warning_list = warnings or [
-        "M3 heat-set insert hole diameter is supplier-dependent and must be confirmed.",
+        "Tank and pump footprints are ASSUMED — confirm against your exact hardware.",
         "PROTOTYPE ONLY — STRUCTURAL CAPACITY NOT VERIFIED",
-        "Lid fit clearance should be verified with a fit-test coupon on the target printer.",
+        "Module joint fasteners/seals are not finalized in Rev A.",
+        "Empty shell only: no fuel, ignition, combustion, or weapon systems.",
     ]
 
     export_records: dict[str, Any] = {}
@@ -54,39 +55,40 @@ def write_build_report(
             for fmt, path in paths.items()
         }
 
+    parts_payload: dict[str, Any] = {}
+    for name, validation in validations.items():
+        parts_payload[name] = {
+            "solid_count": validation.solid_count,
+            "volume_mm3": validation.volume_mm3,
+            "bounding_box_mm": {
+                "x": validation.bounding_box.xlen_mm,
+                "y": validation.bounding_box.ylen_mm,
+                "z": validation.bounding_box.zlen_mm,
+            },
+        }
+
     payload = {
         "build_timestamp_utc": timestamp,
         "git_commit": commit,
-        "product": "electronics_enclosure",
+        "product": "havoc_water_gun_shell",
         "revision": params.revision,
         "parameters": parameters_dict(params),
-        "parts": {
-            "base": {
-                "solid_count": base_validation.solid_count,
-                "volume_mm3": base_validation.volume_mm3,
-                "bounding_box_mm": {
-                    "x": base_validation.bounding_box.xlen_mm,
-                    "y": base_validation.bounding_box.ylen_mm,
-                    "z": base_validation.bounding_box.zlen_mm,
-                },
-            },
-            "lid": {
-                "solid_count": lid_validation.solid_count,
-                "volume_mm3": lid_validation.volume_mm3,
-                "bounding_box_mm": {
-                    "x": lid_validation.bounding_box.xlen_mm,
-                    "y": lid_validation.bounding_box.ylen_mm,
-                    "z": lid_validation.bounding_box.zlen_mm,
-                },
-            },
+        "envelope_mm": {
+            "length": envelope_mm[0] if envelope_mm else None,
+            "width": envelope_mm[1] if envelope_mm else None,
+            "height": envelope_mm[2] if envelope_mm else None,
         },
+        "parts": parts_payload,
         "exports": export_records,
         "validation_status": "pass",
         "warnings": warning_list,
         "assumptions": [
-            "ASSUMPTION A1: Target process is FDM with a 0.4 mm nozzle.",
-            "ASSUMPTION A2: Default material is PETG unless overridden.",
-            "ASSUMPTION A3: Enclosure is for low-voltage electronics only.",
+            "ASSUMPTION A1: ~2.5 gal tank cavity sized from common 12x8 in go-kart tanks.",
+            "ASSUMPTION A2: Horizontal pump footprint 160x100x100 mm.",
+            "ASSUMPTION A3: Vertical pump footprint Ø100x180 mm.",
+            "ASSUMPTION A4: Stock battery bay 160x110x130 mm.",
+            "ASSUMPTION A5: FDM / PETG prototype shell only.",
+            "ASSUMPTION A6: Havoc-inspired silhouette; not a licensed replica.",
         ],
     }
 
@@ -104,45 +106,45 @@ def write_build_report(
 
 - Timestamp (UTC): {timestamp}
 - Git commit: `{commit}`
-- Product: electronics enclosure
+- Product: Havoc water-gun empty shell
 - Revision: {params.revision.upper()}
+
+## Envelope
+
+- Length: {envelope_mm[0] if envelope_mm else "n/a"} mm
+- Width: {envelope_mm[1] if envelope_mm else "n/a"} mm
+- Height: {envelope_mm[2] if envelope_mm else "n/a"} mm
 
 ## Parameters
 
-- Length: {params.length_mm:.2f} mm
-- Width: {params.width_mm:.2f} mm
-- Height: {params.height_mm:.2f} mm
+- Receiver: {params.receiver_length_mm:.1f} x {params.receiver_width_mm:.1f} x {params.receiver_height_mm:.1f} mm
+- Barrel length: {params.barrel_length_mm:.1f} mm
+- Stock: {params.stock_length_mm:.1f} x {params.stock_width_mm:.1f} x {params.stock_height_mm:.1f} mm
 - Wall thickness: {params.wall_thickness_mm:.2f} mm
-- Lid fit clearance: {params.lid_fit_clearance_mm:.2f} mm
+- Tank cavity: {params.tank_cavity_length_mm:.1f} x {params.tank_cavity_width_mm:.1f} x {params.tank_cavity_height_mm:.1f} mm
 
-## Base
+## Parts
 
-- Solid count: {base_validation.solid_count}
-- Volume: {base_validation.volume_mm3:.1f} mm^3
-- Bounding box (mm):
-  {base_validation.bounding_box.xlen_mm:.2f} x
-  {base_validation.bounding_box.ylen_mm:.2f} x
-  {base_validation.bounding_box.zlen_mm:.2f}
+"""
+    for name, validation in validations.items():
+        md += (
+            f"### {name}\n"
+            f"- Solid count: {validation.solid_count}\n"
+            f"- Volume: {validation.volume_mm3:.1f} mm^3\n"
+            f"- Bounding box (mm): "
+            f"{validation.bounding_box.xlen_mm:.2f} x "
+            f"{validation.bounding_box.ylen_mm:.2f} x "
+            f"{validation.bounding_box.zlen_mm:.2f}\n\n"
+        )
 
-## Lid
-
-- Solid count: {lid_validation.solid_count}
-- Volume: {lid_validation.volume_mm3:.1f} mm^3
-- Bounding box (mm):
-  {lid_validation.bounding_box.xlen_mm:.2f} x
-  {lid_validation.bounding_box.ylen_mm:.2f} x
-  {lid_validation.bounding_box.zlen_mm:.2f}
-
-## Validation
+    md += """## Validation
 
 - Solid count: Pass
 - Positive volume: Pass
-- Bounding dimensions: Pass
-- Export presence: {"Pass" if exports else "Not run in this report"}
+- Export presence: """
+    md += "Pass" if exports else "Not run in this report"
+    md += "\n\n## Exports\n\n"
 
-## Exports
-
-"""
     if exports:
         for part_name, paths in export_records.items():
             for fmt, rel in paths.items():
@@ -169,9 +171,9 @@ def main() -> int:
     result = build_all()
     path = write_build_report(
         params=result["params"],
-        base_validation=result["base_validation"],
-        lid_validation=result["lid_validation"],
+        validations=result["validations"],
         exports={},
+        envelope_mm=result["envelope_mm"],
     )
     print(f"Wrote report: {path}")
     return 0
