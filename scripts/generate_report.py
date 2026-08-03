@@ -117,11 +117,14 @@ def write_build_report(
 
 ## Parameters
 
-- Receiver: {params.receiver_length_mm:.1f} x {params.receiver_width_mm:.1f} x {params.receiver_height_mm:.1f} mm
+- Receiver (mm): {params.receiver_length_mm:.1f} x
+  {params.receiver_width_mm:.1f} x {params.receiver_height_mm:.1f}
 - Barrel length: {params.barrel_length_mm:.1f} mm
-- Stock: {params.stock_length_mm:.1f} x {params.stock_width_mm:.1f} x {params.stock_height_mm:.1f} mm
+- Stock (mm): {params.stock_length_mm:.1f} x
+  {params.stock_width_mm:.1f} x {params.stock_height_mm:.1f}
 - Wall thickness: {params.wall_thickness_mm:.2f} mm
-- Tank cavity: {params.tank_cavity_length_mm:.1f} x {params.tank_cavity_width_mm:.1f} x {params.tank_cavity_height_mm:.1f} mm
+- Tank cavity (mm): {params.tank_cavity_length_mm:.1f} x
+  {params.tank_cavity_width_mm:.1f} x {params.tank_cavity_height_mm:.1f}
 
 ## Parts
 

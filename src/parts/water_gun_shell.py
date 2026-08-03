@@ -628,7 +628,6 @@ def _split_half(
     cz = (bbox.zmin + bbox.zmax) / 2.0
 
     if keep_positive_y:
-        cutter_cy = bbox.ymin / 2.0 - pad
         # Remove everything with Y < kerf/2
         cutter = (
             cq.Workplane("XY")
