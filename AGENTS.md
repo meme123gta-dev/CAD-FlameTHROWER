@@ -2,10 +2,14 @@
 
 ## Cursor Cloud specific instructions
 
-This is a parametric **CadQuery** (Python) CAD workspace. The "application" is a set of
-command-line scripts that build parametric solids, validate their geometry, and export
-STEP/STL files. There is no server or GUI to run. See `README.md` for the full command
-reference and repository layout.
+This is a parametric **CadQuery** (Python) CAD workspace. The primary product on the
+Havoc shell branch is a theatrical **water-gun empty shell** (`src/parts/water_gun_shell.py`)
+with P1S-printable segments and an exploded compound for Tinkercad preview. The
+"application" is a set of CLI scripts that build/validate/export STEP+STL — there is no
+server. See `README.md` and `docs/tinkercad_p1s_exploded.md`.
+
+Safety: exterior/cosmetic empty shell only — no fuel, ignition, combustion, or flame
+systems. Tank/pump regions are inert exclusion cavities.
 
 ### Environment
 
@@ -39,3 +43,10 @@ reference and repository layout.
   passes cleanly.
 - The master design source is the CadQuery Python code in `src/`; STEP/STL files in
   `exports/` are outputs and are never the source of truth.
+- Tinkercad import of the exploded shell uses
+  `exports/stl/havoc_water_gun_shell_p1s_exploded_p1s_rev_a.stl` (see
+  `docs/tinkercad_p1s_exploded.md`). Preferred Tinkercad design name:
+  **Inflammatory Attempt Number Four AI**. Cloud-agent Chrome has no Autodesk session —
+  a human must Sign In via the Desktop pane before the agent can rename/import into
+  Tinkercad. Individual `p1s_*` segment STLs (not the exploded compound) are what get
+  sliced for the Bambu Lab P1S.

@@ -30,9 +30,14 @@ Import these into **one** new 3D Design (mm units):
 
 ## Fast path (one import)
 
-1. New Tinkercad 3D Design → name it `Havoc Water Gun — P1S Exploded`
+1. New Tinkercad 3D Design → name it **`Inflammatory Attempt Number Four AI`**
+   (alternate label: `Havoc Water Gun — P1S Exploded`)
 2. **Import** → choose `havoc_water_gun_shell_p1s_exploded_p1s_rev_a.stl`
+   Absolute path in this repo:
+   `exports/stl/havoc_water_gun_shell_p1s_exploded_p1s_rev_a.stl`
 3. If prompted about size, keep scale at **100%** (model is already mm). If Tinkercad caps the workplane, scale to **50%** for viewing only — print the individual `p1s_*` segment STLs at **100%** in Bambu Studio.
+
+Safety reminder: this is an **empty theatrical/display shell** only (no fuel, ignition, or flame systems).
 
 ## How pieces sit together
 
