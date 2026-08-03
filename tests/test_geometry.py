@@ -67,6 +67,27 @@ def test_compact_variant_builds():
     assert len(build_stock(params).solids().vals()) == 1
 
 
+def test_p1s_segments_fit_bed():
+    from src.parts.water_gun_shell import (
+        _fits_printer,
+        build_p1s_segments,
+        p1s_parameters,
+    )
+
+    params = p1s_parameters()
+    segments = build_p1s_segments(params)
+    assert len(segments) >= 10
+    for name, solid in segments.items():
+        assert _fits_printer(solid, params), name
+
+
+def test_p1s_exploded_has_multiple_solids():
+    from src.parts.water_gun_shell import build_exploded_assembly, p1s_parameters
+
+    exploded = build_exploded_assembly(p1s_parameters())
+    assert len(exploded.solids().vals()) >= 10
+
+
 def test_get_variant_unknown():
     with pytest.raises(KeyError):
         get_variant("not_a_real_variant")

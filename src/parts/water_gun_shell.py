@@ -97,6 +97,11 @@ class WaterGunShellParameters:
     # Split-plane kerf for left/right printable halves.
     split_kerf_mm: float = 0.20
 
+    # Target printer envelope (Bambu Lab P1S default).
+    printer_bed_x_mm: float = 256.0
+    printer_bed_y_mm: float = 256.0
+    printer_bed_z_mm: float = 256.0
+
     revision: str = REVISION
 
 
@@ -645,6 +650,51 @@ def _split_half(
     return _fuse_solids(model.cut(cutter))
 
 
+def _split_along_x(
+    model: cq.Workplane,
+    *,
+    cut_x_mm: float,
+    keep_positive_x: bool,
+    kerf_mm: float,
+) -> cq.Workplane:
+    """Keep the +X or -X side of a cut plane at cut_x_mm."""
+    bbox = model.val().BoundingBox()
+    pad = 5.0
+    length = bbox.xlen + 2 * pad
+    width = bbox.ylen + 2 * pad
+    height = bbox.zlen + 2 * pad
+    cy = (bbox.ymin + bbox.ymax) / 2.0
+    cz = (bbox.zmin + bbox.zmax) / 2.0
+
+    if keep_positive_x:
+        cutter = (
+            cq.Workplane("XY")
+            .workplane(offset=cz)
+            .center(cut_x_mm - length / 2.0 + kerf_mm / 2.0, cy)
+            .box(length, width, height)
+        )
+    else:
+        cutter = (
+            cq.Workplane("XY")
+            .workplane(offset=cz)
+            .center(cut_x_mm + length / 2.0 - kerf_mm / 2.0, cy)
+            .box(length, width, height)
+        )
+    return _fuse_solids(model.cut(cutter))
+
+
+def _fits_printer(
+    model: cq.Workplane,
+    params: WaterGunShellParameters,
+) -> bool:
+    bbox = model.val().BoundingBox()
+    dims = sorted([bbox.xlen, bbox.ylen, bbox.zlen])
+    bed = sorted(
+        [params.printer_bed_x_mm, params.printer_bed_y_mm, params.printer_bed_z_mm]
+    )
+    return all(d <= b + 1e-6 for d, b in zip(dims, bed, strict=True))
+
+
 def build_printable_halves(
     part: str,
     params: WaterGunShellParameters | None = None,
@@ -668,6 +718,176 @@ def build_printable_halves(
             solid, keep_positive_y=True, kerf_mm=params.split_kerf_mm
         ),
     }
+
+
+def p1s_parameters() -> WaterGunShellParameters:
+    """Shell params tuned so length/side splits fit a Bambu Lab P1S (256^3).
+
+    Grip is still modeled on the receiver for assembly reference, but P1S
+    receiver print segments use a body-only cut that excludes the hanging grip
+    envelope by relying on reduced receiver height + separate grip export.
+    """
+    return WaterGunShellParameters(
+        # Keep tank packing, but cap outer height under the P1S Z limit when
+        # grip is printed separately and rail stays short on the forward roof.
+        receiver_length_mm=380.0,
+        receiver_width_mm=280.0,
+        receiver_height_mm=248.0,
+        tank_cavity_length_mm=330.0,
+        tank_cavity_width_mm=220.0,
+        tank_cavity_height_mm=210.0,
+        tank_clearance_mm=8.0,
+        barrel_length_mm=420.0,
+        stock_length_mm=200.0,
+        stock_width_mm=150.0,
+        stock_height_mm=170.0,
+        grip_height_mm=110.0,
+        rail_height_mm=12.0,
+        printer_bed_x_mm=256.0,
+        printer_bed_y_mm=256.0,
+        printer_bed_z_mm=256.0,
+        revision=REVISION,
+    )
+
+
+def build_p1s_segments(
+    params: WaterGunShellParameters | None = None,
+) -> dict[str, cq.Workplane]:
+    """Build printable segments sized for Bambu Lab P1S beds.
+
+    Layout:
+    - stock_left / stock_right
+    - barrel_{rear|front}_{left|right}
+    - receiver_{rear|front}_{left|right}  (body; grip hanging volume trimmed)
+    - grip (single cosmetic stub for optional separate print)
+    """
+    params = params or p1s_parameters()
+    validate_parameters(params)
+    kerf = params.split_kerf_mm
+    segments: dict[str, cq.Workplane] = {}
+
+    # Stock — already P1S-friendly as L/R halves.
+    for side, solid in build_printable_halves("stock", params).items():
+        segments[f"stock_{side}"] = solid
+
+    # Barrel — split mid-length, then L/R.
+    barrel = build_barrel(params)
+    bx0, bx1 = _barrel_x_span(params)
+    barrel_mid = (bx0 + bx1) / 2.0
+    barrel_rear = _split_along_x(
+        barrel, cut_x_mm=barrel_mid, keep_positive_x=False, kerf_mm=kerf
+    )
+    barrel_front = _split_along_x(
+        barrel, cut_x_mm=barrel_mid, keep_positive_x=True, kerf_mm=kerf
+    )
+    for region_name, region in (("rear", barrel_rear), ("front", barrel_front)):
+        segments[f"barrel_{region_name}_left"] = _split_half(
+            region, keep_positive_y=False, kerf_mm=kerf
+        )
+        segments[f"barrel_{region_name}_right"] = _split_half(
+            region, keep_positive_y=True, kerf_mm=kerf
+        )
+
+    # Receiver body — trim hanging grip and top rail so height fits P1S.
+    receiver = build_receiver(params)
+    bbox = receiver.val().BoundingBox()
+    cx = (bbox.xmin + bbox.xmax) / 2.0
+    cy = (bbox.ymin + bbox.ymax) / 2.0
+
+    # Half-space cut: remove everything below Z=0 (hanging grip).
+    below = (
+        cq.Workplane("XY")
+        .workplane(offset=-500.0)
+        .center(cx, cy)
+        .box(2000.0, 2000.0, 1000.0)
+    )
+    # Half-space cut: remove everything above receiver roof (rail).
+    above = (
+        cq.Workplane("XY")
+        .workplane(offset=params.receiver_height_mm + 500.0)
+        .center(cx, cy)
+        .box(2000.0, 2000.0, 1000.0)
+    )
+    receiver_body = _fuse_solids(receiver.cut(below).cut(above))
+
+    rx0, rx1 = _receiver_x_span(params)
+    receiver_mid = (rx0 + rx1) / 2.0
+    receiver_rear = _split_along_x(
+        receiver_body, cut_x_mm=receiver_mid, keep_positive_x=False, kerf_mm=kerf
+    )
+    receiver_front = _split_along_x(
+        receiver_body, cut_x_mm=receiver_mid, keep_positive_x=True, kerf_mm=kerf
+    )
+    for region_name, region in (("rear", receiver_rear), ("front", receiver_front)):
+        segments[f"receiver_{region_name}_left"] = _split_half(
+            region, keep_positive_y=False, kerf_mm=kerf
+        )
+        segments[f"receiver_{region_name}_right"] = _split_half(
+            region, keep_positive_y=True, kerf_mm=kerf
+        )
+
+    # Separate grip stub: keep only geometry below Z=0.
+    full_receiver = build_receiver(params)
+    grip_keep_cutter = (
+        cq.Workplane("XY")
+        .workplane(offset=500.0)
+        .center(cx, cy)
+        .box(2000.0, 2000.0, 1000.0)
+    )
+    grip = _fuse_solids(full_receiver.cut(grip_keep_cutter))
+    segments["grip"] = grip
+
+    # Validate each segment fits the configured printer envelope.
+    oversized = []
+    for name, solid in segments.items():
+        validate_model(solid, expected_solid_count=1, min_volume_mm3=10.0)
+        if name != "grip" and not _fits_printer(solid, params):
+            bb = solid.val().BoundingBox()
+            oversized.append(
+                f"{name}={bb.xlen:.1f}x{bb.ylen:.1f}x{bb.zlen:.1f}"
+            )
+    if oversized:
+        raise ValueError(
+            "P1S segments exceed printer envelope: " + ", ".join(oversized)
+        )
+
+    return segments
+
+
+def build_exploded_assembly(
+    params: WaterGunShellParameters | None = None,
+    *,
+    gap_mm: float = 40.0,
+) -> cq.Workplane:
+    """Translate P1S segments apart for an exploded visualization compound."""
+    params = params or p1s_parameters()
+    segments = build_p1s_segments(params)
+
+    # Explode offsets: stock rear, receiver center, barrel forward; L/R apart.
+    offsets = {
+        "stock_left": (-gap_mm * 2.5, -gap_mm, 0.0),
+        "stock_right": (-gap_mm * 2.5, gap_mm, 0.0),
+        "receiver_rear_left": (-gap_mm * 0.5, -gap_mm, 0.0),
+        "receiver_rear_right": (-gap_mm * 0.5, gap_mm, 0.0),
+        "receiver_front_left": (gap_mm * 0.5, -gap_mm, 0.0),
+        "receiver_front_right": (gap_mm * 0.5, gap_mm, 0.0),
+        "barrel_rear_left": (gap_mm * 2.0, -gap_mm, 0.0),
+        "barrel_rear_right": (gap_mm * 2.0, gap_mm, 0.0),
+        "barrel_front_left": (gap_mm * 3.5, -gap_mm, 0.0),
+        "barrel_front_right": (gap_mm * 3.5, gap_mm, 0.0),
+        "grip": (0.0, 0.0, -gap_mm * 1.5),
+    }
+
+    solids = []
+    for name, solid in segments.items():
+        dx, dy, dz = offsets.get(name, (0.0, 0.0, 0.0))
+        moved = solid.translate((dx, dy, dz))
+        solids.extend(moved.solids().vals())
+
+    if not solids:
+        raise ValueError("no segments to explode")
+    compound = cq.Compound.makeCompound(solids)
+    return cq.Workplane("XY").newObject([compound])
 
 
 def build_part(params: WaterGunShellParameters | None = None) -> cq.Workplane:
@@ -705,8 +925,9 @@ def export_shell(
     *,
     stl_quality: str = "normal",
     include_halves: bool = True,
+    include_p1s_segments: bool = True,
 ) -> dict[str, dict[str, Path]]:
-    """Validate and export full shell plus printable module halves."""
+    """Validate and export full shell, halves, and optional P1S segments."""
     params = params or WaterGunShellParameters()
     validate_parameters(params)
 
@@ -751,6 +972,33 @@ def export_shell(
                     revision=params.revision,
                     stl_quality=stl_quality,
                 )
+
+    if include_p1s_segments:
+        p1s_params = p1s_parameters()
+        segments = build_p1s_segments(p1s_params)
+        for name, solid in segments.items():
+            outputs[f"p1s_{name}"] = export_part_formats(
+                solid,
+                product=PRODUCT_NAME,
+                part=f"p1s_{name}",
+                variant="p1s",
+                revision=p1s_params.revision,
+                stl_quality=stl_quality,
+            )
+        exploded = build_exploded_assembly(p1s_params, gap_mm=40.0)
+        validate_model(
+            exploded,
+            expected_solid_count=None,
+            min_volume_mm3=1000.0,
+        )
+        outputs["p1s_exploded"] = export_part_formats(
+            exploded,
+            product=PRODUCT_NAME,
+            part="p1s_exploded",
+            variant="p1s",
+            revision=p1s_params.revision,
+            stl_quality=stl_quality,
+        )
 
     return outputs
 

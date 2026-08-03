@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from src.parts.water_gun_shell import WaterGunShellParameters
+from src.parts.water_gun_shell import WaterGunShellParameters, p1s_parameters
 
 
 def default_shell() -> WaterGunShellParameters:
@@ -33,10 +33,16 @@ def long_barrel_shell() -> WaterGunShellParameters:
     return WaterGunShellParameters(barrel_length_mm=520.0)
 
 
+def p1s_shell() -> WaterGunShellParameters:
+    """Bambu Lab P1S-oriented envelope (use with build_p1s_segments)."""
+    return p1s_parameters()
+
+
 VARIANTS: dict[str, WaterGunShellParameters] = {
     "default": default_shell(),
     "compact": compact_shell(),
     "long_barrel": long_barrel_shell(),
+    "p1s": p1s_shell(),
 }
 
 
