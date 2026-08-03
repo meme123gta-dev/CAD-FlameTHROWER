@@ -1,11 +1,18 @@
-# Inspection Checklist
+# Inspection Notes
 
-- [ ] Base and lid regenerate from source without errors
-- [ ] Bounding boxes match parameter table within 0.2 mm
-- [ ] Four insert holes present in base bosses
-- [ ] Four counterbored holes present in lid
-- [ ] Cable port present on -X wall
-- [ ] Alignment pins and sockets engage with intended clearance
-- [ ] STEP files open in FreeCAD / CAD viewer
-- [ ] STL files import into slicer at millimeter scale
-- [ ] No hazardous functional internals are present in the model
+## Geometry checks
+
+- Each exported body must be a single solid with positive volume
+- Bounding boxes should match module length targets within ~0.5 mm on primary axes
+- Left/right halves should each be roughly half the parent module width
+
+## Fit checks (physical)
+
+- Confirm your exact 2.5 gal tank drops into the receiver cavity with clearance
+- Confirm horizontal and vertical pump footprints against ASSUMPTION A2/A3
+- Confirm battery pack fits the stock cavity
+- Dry-fit module end faces before designing fasteners
+
+## Prototype label
+
+PROTOTYPE ONLY — STRUCTURAL CAPACITY NOT VERIFIED

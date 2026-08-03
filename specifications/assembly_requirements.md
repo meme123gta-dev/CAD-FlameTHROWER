@@ -1,28 +1,33 @@
-# Assembly Requirements — Electronics Enclosure Rev A
+# Assembly Requirements — Havoc Water-Gun Empty Shell
 
-## Components
+## Modules
 
-1. Base (`electronics_enclosure_base_default_rev_a`)
-2. Lid (`electronics_enclosure_lid_default_rev_a`)
-3. 4× M3 heat-set inserts (supplier-specified)
-4. 4× M3 screws of appropriate length for lid thickness + engagement
+1. Receiver — houses tank exclusion and pump packing bays; cosmetic grip + rail.
+2. Barrel — long hollow shroud with empty bore; mates to receiver +X face.
+3. Stock — thick stubby butt with battery/component cavity; mates to receiver -X face.
 
-## Assembly Order
+## Iteration-1 joint intent
 
-1. Print base and lid in the recommended orientations documented in `docs/manufacturing.md`.
-2. Install heat-set inserts into the four base bosses using the insert manufacturer's procedure.
-3. Route low-voltage cables through the -X cable port as needed.
-4. Place lid onto base, engaging alignment pins and lid lip.
-5. Fasten lid with four M3 screws through the counterbored lid holes.
+Modules are exported as separate solids for printing. Mechanical fasteners, sealing,
+and interlocking flanges are **not** finalized. Parameters `flange_depth_mm` and
+`flange_clearance_mm` are reserved.
 
-## Tool Access
+Recommended prototype join (manual):
+- Align module end faces
+- Use external straps / printed lugs (future revision) or adhesive for display mockups only
 
-Screwdriver access is from the lid top face (+Z).
+## Printable halves
 
-## Serviceability
+Each module can be split on the Y=0 plane into left/right halves with `split_kerf_mm`.
+Print on the flat split face when orientation allows, then join halves along the split.
 
-Lid is removable for electronics service. Do not overtighten plastic threads or inserts.
+## Hardware packing (not modeled as solids)
+
+- ~2.5 gal fluid tank into receiver hatch / cavity
+- Horizontal pump into forward receiver bay (side access)
+- Vertical pump into rear-left receiver bay (side access)
+- Batteries / low-voltage electronics into stock cavity (butt + top hatch)
 
 ## Exclusions
 
-Do not install fuel, ignition, pressurized, or combustion components inside this enclosure.
+Do not assemble fuel, ignition, combustion, or pressurized-gas systems into this shell.

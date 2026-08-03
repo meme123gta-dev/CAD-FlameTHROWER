@@ -1,21 +1,28 @@
 # Design Decisions
 
-## Why a two-piece screw-together enclosure?
+## Why an empty modular shell first?
 
-Serviceable lid retention with heat-set inserts is more durable across repeated openings than PLA snap fits for this sample.
+Iteration 1 needs printable volume for a ~2.5 gal tank and dual pump footprints before
+joints, lids, and mounting ears are finalized. A hollow shell keeps the CadQuery source
+as the master while exports stay regenerable.
 
-## Why parametric dataclasses?
+## Why Havoc-inspired proportions?
 
-Named parameters keep the Python source the editable master and allow variants without rewriting geometry operations.
+The requested silhouette is a long barrel with a thick mid-body and stubby stock.
+Those proportions map cleanly onto barrel / receiver / stock modules without copying
+game assets or claiming a licensed replica.
 
-## Why separate base/lid exports?
+## Why left/right halves?
 
-Manufacturing and slicing treat them as separate printable bodies; assembly composition is handled in `main_assembly.py`.
+A ~1 m assembled envelope will not fit typical FDM beds. Splitting each module on the
+Y=0 plane yields printable halves (~55–155 mm wide) that can be joined along a flat face.
 
-## Why placeholder modules for bracket/grip?
+## Why exclusion cavities instead of modeled pumps/tank?
 
-The repository structure reserves future product families while keeping the first validated sample focused on the enclosure.
+Exact Amazon tank SKU and pump brands are unknown. Parametric cavities with documented
+assumptions are safer than inventing fake mounting geometry that will be wrong.
 
 ## Safety boundary
 
-This sample intentionally models only a low-voltage electronics housing. Fuel, ignition, combustion, and pressure systems are out of scope and must not be added to this geometry.
+Exterior shell and inert water/fluid packing envelopes only. Fuel, ignition, combustion,
+pressurized-gas, flame-effect, and weapon systems are out of scope and must not be added.

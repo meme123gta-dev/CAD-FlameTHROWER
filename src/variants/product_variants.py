@@ -1,43 +1,52 @@
-"""Product variants for the sample electronics enclosure."""
+"""Product variants for the Havoc water-gun empty shell."""
 
 from __future__ import annotations
 
-from src.parts.enclosure import EnclosureParameters
+from src.parts.water_gun_shell import WaterGunShellParameters, p1s_parameters
 
 
-def default_enclosure() -> EnclosureParameters:
-    return EnclosureParameters()
+def default_shell() -> WaterGunShellParameters:
+    return WaterGunShellParameters()
 
 
-def compact_enclosure() -> EnclosureParameters:
-    """Smaller envelope for dense low-voltage boards."""
-    return EnclosureParameters(
-        length_mm=120.0,
-        width_mm=70.0,
-        height_mm=40.0,
-        cable_port_width_mm=12.0,
-        cable_port_height_mm=7.0,
+def compact_shell() -> WaterGunShellParameters:
+    """Slightly smaller envelope for fit studies on mid-size printers."""
+    return WaterGunShellParameters(
+        receiver_length_mm=340.0,
+        receiver_width_mm=250.0,
+        receiver_height_mm=250.0,
+        barrel_length_mm=360.0,
+        stock_length_mm=180.0,
+        stock_width_mm=140.0,
+        stock_height_mm=150.0,
+        tank_cavity_length_mm=290.0,
+        tank_cavity_width_mm=200.0,
+        tank_cavity_height_mm=190.0,
+        battery_cavity_length_mm=140.0,
+        battery_cavity_width_mm=100.0,
+        battery_cavity_height_mm=110.0,
     )
 
 
-def tall_enclosure() -> EnclosureParameters:
-    """Taller variant for stacked low-voltage modules."""
-    return EnclosureParameters(
-        length_mm=160.0,
-        width_mm=90.0,
-        height_mm=70.0,
-        boss_height_mm=12.0,
-    )
+def long_barrel_shell() -> WaterGunShellParameters:
+    """Longer barrel shroud for silhouette studies."""
+    return WaterGunShellParameters(barrel_length_mm=520.0)
 
 
-VARIANTS: dict[str, EnclosureParameters] = {
-    "default": default_enclosure(),
-    "compact": compact_enclosure(),
-    "tall": tall_enclosure(),
+def p1s_shell() -> WaterGunShellParameters:
+    """Bambu Lab P1S-oriented envelope (use with build_p1s_segments)."""
+    return p1s_parameters()
+
+
+VARIANTS: dict[str, WaterGunShellParameters] = {
+    "default": default_shell(),
+    "compact": compact_shell(),
+    "long_barrel": long_barrel_shell(),
+    "p1s": p1s_shell(),
 }
 
 
-def get_variant(name: str) -> EnclosureParameters:
+def get_variant(name: str) -> WaterGunShellParameters:
     key = name.lower().strip()
     if key not in VARIANTS:
         known = ", ".join(sorted(VARIANTS))
