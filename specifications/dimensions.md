@@ -65,6 +65,26 @@ Inspired by the Flame V3 1.0 Tinkercad layout (Havoc silhouette / cavity placeme
 - Barrel bore = water-nozzle path; barrel conduit = **inert low-voltage wiring/sensor chase**
 - **Not** fuel, ignition, high-voltage spark, combustion, or flame systems
 
+## Known tank hardware (ASIN B0BSDYNDQP)
+
+Seller-listed exact size for the Amazon tank the build must fit.
+Full write-up: `specifications/hardware_tank_B0BSDYNDQP.md`.
+
+| Spec | US | Metric |
+|------|---:|-------:|
+| Outer diameter | 3.00 in | **76.2 mm** |
+| Length | 10.00 in | **254.0 mm** |
+| Capacity | 0.31 gal (approx) | ≈ 1.17 L |
+| Center outlet | 1/8 in | ≈ 3.175 mm |
+| Item weight | — | 0.56 kg |
+
+Source: https://www.amazon.com/dp/B0BSDYNDQP (captured 2026-08-07).
+
+Rev B default cavities (`tank_cavity_*` / `tank_cradle_diameter_mm`) are still
+oversized relative to this SKU (~2.5 gal-class envelope). Geometry has **not**
+been resized to the 3×10 in tank yet — values above are the authoritative
+hardware note for the next packing pass.
+
 ## Coordinate System
 
 - Origin at geometric center of receiver outer XY envelope

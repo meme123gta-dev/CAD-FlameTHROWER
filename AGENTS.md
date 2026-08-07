@@ -50,3 +50,8 @@ systems. Tank/pump regions are inert exclusion cavities.
   still exist as **Flame V3 1.0**. CadQuery Rev B is the master redesign (tank cradle,
   motor bay, water bore + inert LV conduit). Individual `p1s_*` segment STLs (not the
   exploded compound) are what get sliced for the Bambu Lab P1S.
+- Target tank hardware ASIN **B0BSDYNDQP**: seller-listed **Ø3.00 in × 10.00 in
+  (76.2 × 254.0 mm), 0.31 gal approx**. See
+  `specifications/hardware_tank_B0BSDYNDQP.md`. Used only as a water/fluid packing
+  reference — do not design fuel/ignition systems. Rev B cavities are still oversized
+  vs this SKU until a dedicated packing resize.

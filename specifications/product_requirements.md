@@ -58,6 +58,31 @@ flame-effect internals, or weapon functionality. Tank cavity is for inert water/
 theatrical packing only. Barrel “hollow points” from the V3 reference map to water bore
 + inert LV conduit — not ignition hardware.
 
+## Known tank SKU (packing reference)
+
+Amazon ASIN **B0BSDYNDQP** (SJVLXHI 10" aluminum cylinder):
+
+- Outer diameter: **3.00 in (76.2 mm)**
+- Length: **10.00 in (254.0 mm)**
+- Capacity: **0.31 gal approx (≈ 1.17 L)**
+- Center outlet: **1/8 in**
+- Details: `specifications/hardware_tank_B0BSDYNDQP.md`
+
+Used only to size the inert water/fluid packing cavity — not to design a fuel system.
+
+## Assumptions
+
+- ASSUMPTION A1 (updated): Target tank SKU is Amazon `B0BSDYNDQP` —
+  Ø3.00 in × 10.00 in, 0.31 gal approx. Prior Rev A/B cavity defaults (~2.5 gal /
+  330×220×220 mm) remain until a dedicated packing resize revision.
+- ASSUMPTION A2: Horizontal pump footprint ≈ 160 × 100 × 100 mm.
+- ASSUMPTION A3: Vertical pump footprint ≈ Ø100 × 180 mm tall.
+- ASSUMPTION A4: Stock battery/component bay sized for LV pack beside motor bay.
+- ASSUMPTION A5: Target process is FDM with a 0.4 mm nozzle; default material PETG.
+- ASSUMPTION A6: Aesthetic is Havoc-inspired only (long barrel, thick mid-body, stubby stock).
+- ASSUMPTION A7: Cylindrical cradle supports spun/cylinder tanks.
+- ASSUMPTION A8: Stock motor bay packs a water-pump motor only.
+
 ## Acceptance Criteria
 
 - Parametric CadQuery source regenerates (Rev B)
@@ -65,4 +90,5 @@ theatrical packing only. Barrel “hollow points” from the V3 reference map to
 - Left/right halves and P1S segments are valid single solids
 - STEP and STL export succeed into `exports/`
 - Assumptions and revision documented
+- Tank SKU B0BSDYNDQP dimensions recorded for packing
 - Tinkercad design **Flame V4 1.0_AI** can import the exploded / module STLs

@@ -1100,12 +1100,29 @@ def parameters_dict(params: WaterGunShellParameters) -> dict:
     data["overall_length_mm"] = overall_length_mm(params)
     data["overall_width_mm"] = overall_width_mm(params)
     data["overall_height_mm"] = overall_height_mm(params)
+    # Current shell packing defaults remain oversized (~2.5 gal class).
     data["tank_volume_gal_nominal"] = 2.5
     data["tank_reference_inches"] = {
         "spun_approx_l_in": 12.0,
         "spun_approx_d_in": 8.0,
         "length_mm": 12.0 * INCH_TO_MM,
         "diameter_mm": 8.0 * INCH_TO_MM,
+    }
+    # Exact seller-listed tank the build must fit (Amazon ASIN B0BSDYNDQP).
+    # Packing reference only — inert water/fluid cavity, not a fuel system.
+    data["tank_sku"] = {
+        "asin": "B0BSDYNDQP",
+        "url": "https://www.amazon.com/dp/B0BSDYNDQP",
+        "brand": "SJVLXHI",
+        "outer_diameter_in": 3.0,
+        "length_in": 10.0,
+        "outer_diameter_mm": 3.0 * INCH_TO_MM,
+        "length_mm": 10.0 * INCH_TO_MM,
+        "capacity_gal_approx": 0.31,
+        "capacity_L_approx": 0.31 * 3.785411784,
+        "center_outlet_in": 0.125,
+        "item_weight_kg": 0.56,
+        "spec_path": "specifications/hardware_tank_B0BSDYNDQP.md",
     }
     return data
 

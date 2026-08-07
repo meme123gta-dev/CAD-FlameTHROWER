@@ -10,6 +10,10 @@
 - Recessed side panel grooves on receiver and barrel; stepped muzzle ring; grip finger scoop.
 - Wall default 3.2 mm; P1S segment + exploded exports retained.
 - Target Tinkercad design name: **Flame V4 1.0_AI**.
+- Documented Amazon tank ASIN **B0BSDYNDQP** exact seller dimensions:
+  **Ø3.00 in × 10.00 in (76.2 × 254.0 mm), 0.31 gal approx** — see
+  `specifications/hardware_tank_B0BSDYNDQP.md`. Shell packing cavity not yet
+  resized to this SKU (still oversized Rev B defaults).
 
 ## Revision A — 2026-08-03
 
