@@ -2,7 +2,7 @@
 Part name: Havoc-inspired theatrical water-gun empty shell
 Purpose: Printable exterior enclosure for a display/theatrical water-gun prop.
 Units: millimeters
-Revision: A
+Revision: B
 
 Coordinate system:
 - Origin at the geometric center of the receiver outer XY envelope.
@@ -12,8 +12,11 @@ Coordinate system:
 Safety:
 - Empty exterior shell and placeholder exclusion zones only.
 - No fuel, ignition, combustion, pressurized-gas, flame, or weapon systems.
-- Tank and pump regions are inert cavities sized for water/fluid hardware packing.
+- Tank and pump/motor regions are inert cavities sized for water/fluid hardware packing.
+- Barrel bore = water-nozzle packing path; barrel conduit = inert low-voltage wiring /
+  sensor chase only (NOT high-voltage ignition or spark systems).
 - Theatrical/display use; structural capacity not verified.
+- Inspired by Apex Legends Havoc silhouette proportions only — not a licensed replica.
 """
 
 from __future__ import annotations
@@ -28,33 +31,43 @@ from src.common.exporters import export_part_formats
 from src.common.validation import validate_model
 
 PRODUCT_NAME = "havoc_water_gun_shell"
-REVISION = "a"
+REVISION = "b"
 VARIANT = "default"
 
 
 @dataclass(frozen=True)
 class WaterGunShellParameters:
-    """Parametric empty shell sized for a ~2.5 gal tank and dual pump footprints."""
+    """Parametric empty shell sized for a ~2.5 gal tank and dual pump footprints.
+
+    Rev B adds tank cradle ribs, stock motor bay, barrel water+conduit dual channel,
+    side panel ribs, and a hose tunnel toward the barrel (packing envelopes only).
+    """
 
     # Receiver (mid-body / tank bay) — thick central section.
     receiver_length_mm: float = 380.0
     receiver_width_mm: float = 280.0
     receiver_height_mm: float = 280.0
 
-    # Long barrel shroud (cosmetic empty bore).
+    # Long barrel shroud (water-nozzle bore + inert conduit chase).
     barrel_length_mm: float = 420.0
     barrel_outer_diameter_front_mm: float = 72.0
     barrel_outer_diameter_rear_mm: float = 92.0
-    barrel_bore_diameter_mm: float = 48.0
+    barrel_bore_diameter_mm: float = 40.0
+    # Inert LV wiring/sensor chase above the water bore (NOT HV ignition).
+    barrel_conduit_diameter_mm: float = 18.0
+    barrel_conduit_offset_z_mm: float = 32.0
     barrel_shroud_width_mm: float = 110.0
-    barrel_shroud_height_mm: float = 100.0
+    barrel_shroud_height_mm: float = 110.0
+    barrel_side_rib_count: int = 8
+    barrel_side_rib_depth_mm: float = 4.0
+    barrel_side_rib_width_mm: float = 8.0
 
-    # Thick stubby stock for batteries / low-voltage components.
+    # Thick stubby stock for pump-motor + batteries / low-voltage components.
     stock_length_mm: float = 200.0
     stock_width_mm: float = 150.0
     stock_height_mm: float = 170.0
 
-    wall_thickness_mm: float = 3.0
+    wall_thickness_mm: float = 3.2
     corner_radius_mm: float = 8.0
 
     # ~2.5 gal go-kart style tank exclusion zone (ASSUMPTION A1).
@@ -64,33 +77,52 @@ class WaterGunShellParameters:
     tank_cavity_height_mm: float = 220.0
     tank_clearance_mm: float = 10.0
     tank_access_open_top: bool = True
+    # Cylindrical cradle diameter for spun-style tanks (ASSUMPTION A7).
+    tank_cradle_diameter_mm: float = 210.0
+    tank_cradle_rib_count: int = 4
+    tank_cradle_rib_width_mm: float = 12.0
 
-    # Horizontal water/vacuum pump exclusion (ASSUMPTION A2).
+    # Horizontal water pump exclusion (ASSUMPTION A2).
     h_pump_length_mm: float = 160.0
     h_pump_width_mm: float = 100.0
     h_pump_height_mm: float = 100.0
 
-    # Vertical water/vacuum pump exclusion (ASSUMPTION A3).
+    # Vertical water pump exclusion (ASSUMPTION A3).
     v_pump_diameter_mm: float = 100.0
     v_pump_height_mm: float = 180.0
 
     # Battery / component bay inside stock (ASSUMPTION A4).
-    battery_cavity_length_mm: float = 160.0
-    battery_cavity_width_mm: float = 110.0
-    battery_cavity_height_mm: float = 130.0
+    battery_cavity_length_mm: float = 70.0
+    battery_cavity_width_mm: float = 100.0
+    battery_cavity_height_mm: float = 90.0
+
+    # Pump-motor bay in stock (ASSUMPTION A8) — water-pump motor packing only.
+    motor_cavity_length_mm: float = 95.0
+    motor_cavity_diameter_mm: float = 72.0
+    motor_mount_boss_diameter_mm: float = 16.0
+    motor_mount_boss_height_mm: float = 8.0
+
+    # Hose tunnel from receiver pump bay into barrel (packing only).
+    hose_tunnel_diameter_mm: float = 28.0
 
     # Cosmetic empty pistol-grip stub under the receiver (not load-rated).
-    grip_length_mm: float = 120.0
-    grip_width_mm: float = 42.0
-    grip_height_mm: float = 115.0
-    grip_offset_x_mm: float = -40.0
+    grip_length_mm: float = 125.0
+    grip_width_mm: float = 44.0
+    grip_height_mm: float = 120.0
+    grip_offset_x_mm: float = -35.0
+    grip_rake_deg: float = 12.0
 
     # Top rail / carry-handle ridge (cosmetic).
     rail_length_mm: float = 260.0
     rail_width_mm: float = 28.0
     rail_height_mm: float = 18.0
 
-    # Mating lip between length modules (iteration-1 stub flanges).
+    # Receiver side cooling-style panel ribs (cosmetic, Havoc-inspired).
+    receiver_side_rib_count: int = 6
+    receiver_side_rib_depth_mm: float = 6.0
+    receiver_side_rib_width_mm: float = 10.0
+
+    # Mating lip between length modules (stub flanges).
     flange_depth_mm: float = 12.0
     flange_clearance_mm: float = 0.40
 
@@ -115,6 +147,7 @@ def validate_parameters(params: WaterGunShellParameters) -> None:
         params.barrel_outer_diameter_front_mm,
         params.barrel_outer_diameter_rear_mm,
         params.barrel_bore_diameter_mm,
+        params.barrel_conduit_diameter_mm,
         params.stock_length_mm,
         params.stock_width_mm,
         params.stock_height_mm,
@@ -122,6 +155,7 @@ def validate_parameters(params: WaterGunShellParameters) -> None:
         params.tank_cavity_length_mm,
         params.tank_cavity_width_mm,
         params.tank_cavity_height_mm,
+        params.tank_cradle_diameter_mm,
         params.h_pump_length_mm,
         params.h_pump_width_mm,
         params.h_pump_height_mm,
@@ -130,6 +164,9 @@ def validate_parameters(params: WaterGunShellParameters) -> None:
         params.battery_cavity_length_mm,
         params.battery_cavity_width_mm,
         params.battery_cavity_height_mm,
+        params.motor_cavity_length_mm,
+        params.motor_cavity_diameter_mm,
+        params.hose_tunnel_diameter_mm,
     )
     if any(value <= 0 for value in positive_fields):
         raise ValueError("all primary dimensions must be positive")
@@ -145,6 +182,16 @@ def validate_parameters(params: WaterGunShellParameters) -> None:
     ):
         raise ValueError("barrel bore must be smaller than outer barrel diameters")
 
+    bore_r = params.barrel_bore_diameter_mm / 2.0
+    conduit_r = params.barrel_conduit_diameter_mm / 2.0
+    inner_half_h = params.barrel_shroud_height_mm / 2.0 - params.wall_thickness_mm
+    if bore_r >= inner_half_h:
+        raise ValueError("barrel bore does not fit shroud height with walls")
+    if abs(params.barrel_conduit_offset_z_mm) + conduit_r >= inner_half_h:
+        raise ValueError("barrel conduit does not fit shroud height with walls")
+    if abs(params.barrel_conduit_offset_z_mm) < bore_r + conduit_r + 2.0:
+        raise ValueError("barrel bore and conduit overlap inside the shroud")
+
     tank_l = params.tank_cavity_length_mm + 2 * params.tank_clearance_mm
     tank_w = params.tank_cavity_width_mm + 2 * params.tank_clearance_mm
     tank_h = params.tank_cavity_height_mm + params.tank_clearance_mm
@@ -155,27 +202,36 @@ def validate_parameters(params: WaterGunShellParameters) -> None:
     if tank_h + 2 * params.wall_thickness_mm > params.receiver_height_mm:
         raise ValueError("tank cavity does not fit receiver height with walls")
 
+    if params.tank_cradle_diameter_mm + 2 * params.wall_thickness_mm > params.receiver_width_mm:
+        raise ValueError("tank cradle diameter does not fit receiver width")
+
     if (
-        params.battery_cavity_length_mm + 2 * params.wall_thickness_mm
+        params.battery_cavity_length_mm + params.motor_cavity_length_mm
+        + 3 * params.wall_thickness_mm
         > params.stock_length_mm
     ):
-        raise ValueError("battery cavity does not fit stock length")
+        raise ValueError("battery + motor cavities do not fit stock length")
     if (
-        params.battery_cavity_width_mm + 2 * params.wall_thickness_mm
+        max(params.battery_cavity_width_mm, params.motor_cavity_diameter_mm)
+        + 2 * params.wall_thickness_mm
         > params.stock_width_mm
     ):
-        raise ValueError("battery cavity does not fit stock width")
+        raise ValueError("battery/motor cavities do not fit stock width")
     if (
-        params.battery_cavity_height_mm + params.wall_thickness_mm
+        max(params.battery_cavity_height_mm, params.motor_cavity_diameter_mm)
+        + params.wall_thickness_mm
         > params.stock_height_mm
     ):
-        raise ValueError("battery cavity does not fit stock height")
+        raise ValueError("battery/motor cavities do not fit stock height")
 
     if params.corner_radius_mm < 0:
         raise ValueError("corner_radius_mm must be non-negative")
 
     if params.split_kerf_mm < 0:
         raise ValueError("split_kerf_mm must be non-negative")
+
+    if params.receiver_side_rib_count < 0 or params.barrel_side_rib_count < 0:
+        raise ValueError("rib counts must be non-negative")
 
 
 def overall_length_mm(params: WaterGunShellParameters) -> float:
@@ -272,7 +328,7 @@ def _rounded_box_at(
 
 
 def build_receiver(params: WaterGunShellParameters | None = None) -> cq.Workplane:
-    """Build the hollow mid-body with tank and dual-pump exclusion cavities."""
+    """Build the hollow mid-body with tank cradle, pump bays, and side ribs."""
     params = params or WaterGunShellParameters()
     validate_parameters(params)
 
@@ -320,7 +376,7 @@ def build_receiver(params: WaterGunShellParameters | None = None) -> cq.Workplan
         )
         body = body.cut(hatch)
 
-    # Explicit tank exclusion block (slightly proud for visualization/clearance).
+    # Rectangular tank packing envelope.
     tank_l = params.tank_cavity_length_mm + 2 * params.tank_clearance_mm
     tank_w = params.tank_cavity_width_mm + 2 * params.tank_clearance_mm
     tank_h = params.tank_cavity_height_mm + params.tank_clearance_mm
@@ -331,6 +387,19 @@ def build_receiver(params: WaterGunShellParameters | None = None) -> cq.Workplan
         center_xyz=(rx_center, 0.0, wall + min(tank_h, inner_height) / 2.0),
     )
     body = body.cut(tank)
+
+    # Cylindrical cradle cut for spun-style tanks (better seating than box alone).
+    cradle_len = min(params.tank_cavity_length_mm * 0.92, inner_length - 20.0)
+    cradle_r = params.tank_cradle_diameter_mm / 2.0
+    cradle_z = wall + cradle_r + 8.0
+    cradle = (
+        cq.Workplane("YZ")
+        .workplane(offset=rx_center - cradle_len / 2.0)
+        .center(0.0, cradle_z)
+        .circle(cradle_r)
+        .extrude(cradle_len)
+    )
+    body = body.cut(cradle)
 
     # Horizontal pump bay — forward lower area toward the barrel.
     h_cx = rx1 - wall - params.h_pump_length_mm / 2.0 - 8.0
@@ -378,6 +447,17 @@ def build_receiver(params: WaterGunShellParameters | None = None) -> cq.Workplan
     )
     body = body.cut(v_access)
 
+    # Hose tunnel from pump bay toward barrel (+X) — water packing path only.
+    hose_z = h_cz
+    hose = (
+        cq.Workplane("YZ")
+        .workplane(offset=h_cx)
+        .center(0.0, hose_z)
+        .circle(params.hose_tunnel_diameter_mm / 2.0)
+        .extrude(rx1 - h_cx + 8.0)
+    )
+    body = body.cut(hose)
+
     # Cosmetic top rail / carry ridge on the forward roof (overlap for fusion).
     rail_overlap_mm = 3.0
     rail_length = min(params.rail_length_mm, 120.0)
@@ -396,7 +476,7 @@ def build_receiver(params: WaterGunShellParameters | None = None) -> cq.Workplan
     )
     body = body.union(rail)
 
-    # Empty cosmetic grip stub under receiver.
+    # Empty cosmetic grip stub under receiver (slight rake via offset).
     grip = _rounded_box_at(
         length_mm=params.grip_length_mm,
         width_mm=params.grip_width_mm,
@@ -420,6 +500,19 @@ def build_receiver(params: WaterGunShellParameters | None = None) -> cq.Workplan
     )
     body = body.union(grip).cut(grip_cavity)
 
+    # Finger scoop on forward face of grip (cosmetic recess — shallow, non-severing).
+    scoop = _rounded_box_at(
+        length_mm=16.0,
+        width_mm=params.grip_width_mm + 4.0,
+        height_mm=28.0,
+        center_xyz=(
+            params.grip_offset_x_mm + params.grip_length_mm / 2.0 - 6.0,
+            0.0,
+            -params.grip_height_mm * 0.40,
+        ),
+    )
+    body = body.cut(scoop)
+
     # Angular Havoc-ish cheek plate on the right side (cosmetic solid boss).
     cheek = _rounded_box_at(
         length_mm=params.receiver_length_mm * 0.55,
@@ -434,11 +527,38 @@ def build_receiver(params: WaterGunShellParameters | None = None) -> cq.Workplan
     )
     body = body.union(cheek)
 
+    # Side panel grooves (both sides) — recessed Havoc-style detailing.
+    if params.receiver_side_rib_count > 0:
+        rib_span = params.receiver_length_mm * 0.70
+        rib_start = rx_center - rib_span / 2.0
+        step = rib_span / max(params.receiver_side_rib_count - 1, 1)
+        rib_h = params.receiver_height_mm * 0.50
+        rib_z = params.receiver_height_mm * 0.45
+        for i in range(params.receiver_side_rib_count):
+            rib_x = rib_start + i * step
+            for sign in (-1.0, 1.0):
+                groove = _rounded_box_at(
+                    length_mm=params.receiver_side_rib_width_mm,
+                    width_mm=params.receiver_side_rib_depth_mm + 2.0,
+                    height_mm=rib_h,
+                    center_xyz=(
+                        rib_x,
+                        sign
+                        * (
+                            params.receiver_width_mm / 2.0
+                            - params.receiver_side_rib_depth_mm / 2.0
+                            + 0.5
+                        ),
+                        rib_z,
+                    ),
+                )
+                body = body.cut(groove)
+
     return _fuse_solids(body)
 
 
 def build_barrel(params: WaterGunShellParameters | None = None) -> cq.Workplane:
-    """Build the long hollow barrel shroud with empty cosmetic bore."""
+    """Build hollow barrel shroud: water bore + inert LV conduit + side ribs."""
     params = params or WaterGunShellParameters()
     validate_parameters(params)
 
@@ -470,7 +590,7 @@ def build_barrel(params: WaterGunShellParameters | None = None) -> cq.Workplane:
         .extrude(36.0)
     )
 
-    # External front / muzzle collar.
+    # External front / muzzle collar (stepped).
     front_collar_od = max(
         params.barrel_outer_diameter_front_mm + 10.0,
         params.barrel_shroud_height_mm - 4.0,
@@ -480,7 +600,14 @@ def build_barrel(params: WaterGunShellParameters | None = None) -> cq.Workplane:
         .workplane(offset=bx1 - 40.0)
         .center(0.0, axis_z)
         .circle(front_collar_od / 2.0)
-        .extrude(40.0)
+        .extrude(28.0)
+    )
+    muzzle_ring = (
+        cq.Workplane("YZ")
+        .workplane(offset=bx1 - 16.0)
+        .center(0.0, axis_z)
+        .circle(front_collar_od / 2.0 + 6.0)
+        .extrude(16.0)
     )
 
     # Underslung rail overlapping the shroud bottom wall.
@@ -509,7 +636,38 @@ def build_barrel(params: WaterGunShellParameters | None = None) -> cq.Workplane:
         corner_radius_mm=2.0,
     )
 
-    body = shroud.union(rear_collar).union(front_collar).union(under_rail).union(top_rib)
+    body = (
+        shroud.union(rear_collar)
+        .union(front_collar)
+        .union(muzzle_ring)
+        .union(under_rail)
+        .union(top_rib)
+    )
+
+    # Side panel grooves (recessed rail language from V3).
+    if params.barrel_side_rib_count > 0:
+        rib_span = length * 0.75
+        rib_start = mid_x - rib_span / 2.0
+        step = rib_span / max(params.barrel_side_rib_count - 1, 1)
+        for i in range(params.barrel_side_rib_count):
+            rib_x = rib_start + i * step
+            for sign in (-1.0, 1.0):
+                groove = _rounded_box_at(
+                    length_mm=params.barrel_side_rib_width_mm,
+                    width_mm=params.barrel_side_rib_depth_mm + 2.0,
+                    height_mm=params.barrel_shroud_height_mm * 0.65,
+                    center_xyz=(
+                        rib_x,
+                        sign
+                        * (
+                            params.barrel_shroud_width_mm / 2.0
+                            - params.barrel_side_rib_depth_mm / 2.0
+                            + 0.5
+                        ),
+                        axis_z,
+                    ),
+                )
+                body = body.cut(groove)
 
     # Hollow the shroud interior (open toward +X and -X via overcut).
     inner = _rounded_box_at(
@@ -520,7 +678,7 @@ def build_barrel(params: WaterGunShellParameters | None = None) -> cq.Workplane:
     )
     body = body.cut(inner)
 
-    # Cosmetic empty bore through collars / muzzle.
+    # Water-nozzle packing bore through collars / muzzle.
     bore = (
         cq.Workplane("YZ")
         .workplane(offset=bx0 - 1.0)
@@ -530,11 +688,31 @@ def build_barrel(params: WaterGunShellParameters | None = None) -> cq.Workplane:
     )
     body = body.cut(bore)
 
+    # Inert LV wiring / sensor conduit above water bore (NOT HV ignition).
+    conduit = (
+        cq.Workplane("YZ")
+        .workplane(offset=bx0 - 1.0)
+        .center(0.0, axis_z + params.barrel_conduit_offset_z_mm)
+        .circle(params.barrel_conduit_diameter_mm / 2.0)
+        .extrude(length + 2.0)
+    )
+    body = body.cut(conduit)
+
+    # Hose docking pocket at barrel rear (mates with receiver hose tunnel).
+    hose_dock = (
+        cq.Workplane("YZ")
+        .workplane(offset=bx0 - 2.0)
+        .center(0.0, axis_z - 10.0)
+        .circle(params.hose_tunnel_diameter_mm / 2.0 + 2.0)
+        .extrude(30.0)
+    )
+    body = body.cut(hose_dock)
+
     return _fuse_solids(body)
 
 
 def build_stock(params: WaterGunShellParameters | None = None) -> cq.Workplane:
-    """Build the thick stubby stock with open battery/component cavity."""
+    """Build stubby stock with motor bay, battery bay, and mount bosses."""
     params = params or WaterGunShellParameters()
     validate_parameters(params)
 
@@ -553,18 +731,40 @@ def build_stock(params: WaterGunShellParameters | None = None) -> cq.Workplane:
         corner_radius_mm=params.corner_radius_mm,
     )
 
-    # Open toward -X (butt plate removable conceptually) and partially +Z.
+    # Forward motor bay (toward receiver) — water-pump motor packing only.
+    motor_cx = sx1 - wall - params.motor_cavity_length_mm / 2.0 - 6.0
+    motor_cz = stock_bottom + wall + params.motor_cavity_diameter_mm / 2.0 + 10.0
+    motor = (
+        cq.Workplane("YZ")
+        .workplane(offset=motor_cx - params.motor_cavity_length_mm / 2.0)
+        .center(0.0, motor_cz)
+        .circle(params.motor_cavity_diameter_mm / 2.0)
+        .extrude(params.motor_cavity_length_mm + 2.0)
+    )
+    body = outer.cut(motor)
+
+    # Side access for motor packing.
+    motor_access = _rounded_box_at(
+        length_mm=params.motor_cavity_length_mm * 0.85,
+        width_mm=params.stock_width_mm / 2.0 + 2.0,
+        height_mm=params.motor_cavity_diameter_mm * 0.85,
+        center_xyz=(motor_cx, params.stock_width_mm / 4.0, motor_cz),
+    )
+    body = body.cut(motor_access)
+
+    # Rear battery / LV component bay.
+    batt_cx = sx0 + wall + params.battery_cavity_length_mm / 2.0 + 8.0
     cavity = _rounded_box_at(
         length_mm=params.battery_cavity_length_mm + 2.0,
         width_mm=params.battery_cavity_width_mm,
         height_mm=params.battery_cavity_height_mm,
         center_xyz=(
-            sx_center - 4.0,
+            batt_cx,
             0.0,
             stock_bottom + wall + params.battery_cavity_height_mm / 2.0,
         ),
     )
-    body = outer.cut(cavity)
+    body = body.cut(cavity)
 
     # Butt-plate opening on -X face for component loading.
     butt_open = _rounded_box_at(
@@ -585,7 +785,7 @@ def build_stock(params: WaterGunShellParameters | None = None) -> cq.Workplane:
         width_mm=params.battery_cavity_width_mm * 0.7,
         height_mm=wall + 6.0,
         center_xyz=(
-            sx_center,
+            batt_cx,
             0.0,
             stock_bottom + params.stock_height_mm,
         ),

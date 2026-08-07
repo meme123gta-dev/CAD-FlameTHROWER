@@ -15,29 +15,31 @@ Import these into **one** new 3D Design (mm units):
 
 | Order | File | Role |
 |------:|------|------|
-| 1 | `havoc_water_gun_shell_p1s_exploded_p1s_rev_a.stl` | Optional single-file exploded preview |
-| 2 | `havoc_water_gun_shell_p1s_stock_left_p1s_rev_a.stl` | Stock L |
-| 3 | `havoc_water_gun_shell_p1s_stock_right_p1s_rev_a.stl` | Stock R |
-| 4 | `havoc_water_gun_shell_p1s_receiver_rear_left_p1s_rev_a.stl` | Receiver rear L |
-| 5 | `havoc_water_gun_shell_p1s_receiver_rear_right_p1s_rev_a.stl` | Receiver rear R |
-| 6 | `havoc_water_gun_shell_p1s_receiver_front_left_p1s_rev_a.stl` | Receiver front L |
-| 7 | `havoc_water_gun_shell_p1s_receiver_front_right_p1s_rev_a.stl` | Receiver front R |
-| 8 | `havoc_water_gun_shell_p1s_barrel_rear_left_p1s_rev_a.stl` | Barrel rear L |
-| 9 | `havoc_water_gun_shell_p1s_barrel_rear_right_p1s_rev_a.stl` | Barrel rear R |
-| 10 | `havoc_water_gun_shell_p1s_barrel_front_left_p1s_rev_a.stl` | Barrel front L / muzzle |
-| 11 | `havoc_water_gun_shell_p1s_barrel_front_right_p1s_rev_a.stl` | Barrel front R / muzzle |
-| 12 | `havoc_water_gun_shell_p1s_grip_p1s_rev_a.stl` | Grip stub (optional separate print) |
+| 1 | `havoc_water_gun_shell_p1s_exploded_p1s_rev_b.stl` | Optional single-file exploded preview |
+| 2 | `havoc_water_gun_shell_full_default_rev_b.stl` | Assembled Rev B reference shell |
+| 3 | `havoc_water_gun_shell_p1s_stock_left_p1s_rev_b.stl` | Stock L |
+| 4 | `havoc_water_gun_shell_p1s_stock_right_p1s_rev_b.stl` | Stock R |
+| 5 | `havoc_water_gun_shell_p1s_receiver_rear_left_p1s_rev_b.stl` | Receiver rear L |
+| 6 | `havoc_water_gun_shell_p1s_receiver_rear_right_p1s_rev_b.stl` | Receiver rear R |
+| 7 | `havoc_water_gun_shell_p1s_receiver_front_left_p1s_rev_b.stl` | Receiver front L |
+| 8 | `havoc_water_gun_shell_p1s_receiver_front_right_p1s_rev_b.stl` | Receiver front R |
+| 9 | `havoc_water_gun_shell_p1s_barrel_rear_left_p1s_rev_b.stl` | Barrel rear L |
+| 10 | `havoc_water_gun_shell_p1s_barrel_rear_right_p1s_rev_b.stl` | Barrel rear R |
+| 11 | `havoc_water_gun_shell_p1s_barrel_front_left_p1s_rev_b.stl` | Barrel front L / muzzle |
+| 12 | `havoc_water_gun_shell_p1s_barrel_front_right_p1s_rev_b.stl` | Barrel front R / muzzle |
+| 13 | `havoc_water_gun_shell_p1s_grip_p1s_rev_b.stl` | Grip stub (optional separate print) |
 
 ## Fast path (one import)
 
-1. Open (or create) the Tinkercad 3D Design named **`Flame V4 1.0`**
-   (renamed from `Super Jarv`; older exploded preview may live in `Flame V3 1.0`)
-2. **Import** → choose `havoc_water_gun_shell_p1s_exploded_p1s_rev_a.stl`
-   Absolute path in this repo:
-   `exports/stl/havoc_water_gun_shell_p1s_exploded_p1s_rev_a.stl`
+1. Open (or create) the Tinkercad 3D Design named **`Flame V4 1.0_AI`**
+   (renamed from `Super Jarv` / `Flame V4 1.0`; older exploded preview may live in `Flame V3 1.0`)
+2. **Import** → choose the Rev B exploded or full shell STL:
+   - `exports/stl/havoc_water_gun_shell_p1s_exploded_p1s_rev_b.stl` (exploded P1S kit preview)
+   - `exports/stl/havoc_water_gun_shell_full_default_rev_b.stl` (assembled reference)
+   Absolute paths under the repo `exports/stl/` folder.
 3. If prompted about size, keep scale at **100%** (model is already mm). If Tinkercad caps the workplane, scale to **50%** for viewing only — print the individual `p1s_*` segment STLs at **100%** in Bambu Studio.
 
-Safety reminder: this is an **empty theatrical/display shell** only (no fuel, ignition, or flame systems).
+Safety reminder: this is an **empty theatrical/display water-gun shell** only (no fuel, ignition, HV spark, or flame systems). Barrel hollows are water-nozzle bore + inert LV conduit.
 
 ## How pieces sit together
 

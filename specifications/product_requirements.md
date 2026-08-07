@@ -1,4 +1,4 @@
-# Part Requirements — Havoc Water-Gun Empty Shell Rev A
+# Part Requirements — Havoc Water-Gun Empty Shell Rev B
 
 ## Part Name
 
@@ -6,44 +6,41 @@ Havoc-inspired theatrical water-gun empty shell (barrel + receiver + stock)
 
 ## Purpose
 
-Printable exterior enclosure / prop shell for a theatrical or display water-gun build.
-The shell provides packing volume for a ~2.5-gallon fluid tank, horizontal and vertical
-pump footprints, and a stubby stock bay for batteries / low-voltage components.
+Printable exterior enclosure / prop shell for a theatrical or display **water-gun** build.
+The shell provides packing volume for a ~2.5-gallon **water** reservoir, horizontal and
+vertical pump footprints, a stock bay for a water-pump motor + batteries / low-voltage
+components, and a barrel with a water-nozzle bore plus an inert LV conduit chase.
+
+Rev B redesign is informed by the user's Flame V3 1.0 Tinkercad layout (component cavity
+placement, ribbed/panel language, motor-in-stock) while keeping CadQuery as master source.
 
 ## Safe Scope Classification
 
 Permitted:
 - Exterior shell modules (barrel shroud, receiver, stock)
-- Cosmetic empty bore and grip stub
-- Placeholder exclusion cavities for tank and pumps
-- Printable left/right halves
+- Water-nozzle packing bore and inert low-voltage wiring/sensor conduit
+- Placeholder exclusion cavities for water tank, pumps, and pump motor
+- Printable left/right halves and P1S segments
+- Cosmetic panel grooves, rail, grip, cheek plate
 
 Excluded:
-- Fuel storage systems, pressurization, ignition, combustion, flame projection
-- Weapon functionality, projectile launch systems, or pressurized-gas internals
-- Functional pump / plumbing design (cavities are packing envelopes only)
+- Fuel storage systems, pressurization for flame effects, ignition, combustion, flame projection
+- High-voltage ignition / spark systems in the barrel (conduit is LV/sensor packing only)
+- Weapon functionality or projectile launch systems
+- Functional sealed pump / plumbing design (cavities are packing envelopes only)
 
 ## Overall Dimensions (default)
 
 - Overall length: 1000.0 mm (stock 200 + receiver 380 + barrel 420)
 - Overall width: ~280 mm at receiver (cheek plate adds ~15 mm)
-- Overall height: ~410 mm including grip stub and top rail
-
-## Maximum Envelope
-
-Approximately 1004 × 295 × 410 mm for the assembled reference solid.
+- Overall height: ~418 mm including grip stub and top rail
 
 ## Mating Components
 
-- Barrel module (hollow shroud)
-- Receiver module (tank + dual pump cavities)
-- Stock module (battery / component bay)
-- Left/right printable halves of each module
-
-## Mounting Method
-
-Iteration 1 is an empty shell only. Mating flanges / fasteners for module joints are
-stub parameters (`flange_depth_mm`, `flange_clearance_mm`) reserved for a later revision.
+- Barrel module (water bore + LV conduit + hose dock)
+- Receiver module (tank cradle + dual pump cavities + hose tunnel)
+- Stock module (motor bay + battery bay)
+- Left/right printable halves / P1S segments of each module
 
 ## Material
 
@@ -52,82 +49,20 @@ Default assumption: PETG. PLA acceptable for visual fit prototypes.
 ## Manufacturing Process
 
 FDM 3D printing. Print left/right halves flat on the split face when possible.
-
-## Printer
-
-Generic FDM; halves target ~220–300 mm bed class. Full modules may require a large bed
-or further segmentation in a later revision.
-
-## Nozzle Diameter
-
-0.4 mm
-
-## Expected Loads
-
-Prototype / display handling only. Structural capacity not verified.
-
-## Environmental Conditions
-
-Indoor prototype / display use unless material and sealing are re-specified.
-Water contact sealing is out of scope for Rev A.
-
-## Required Clearances
-
-- Tank packing clearance: 10.0 mm around nominal tank exclusion
-- Split kerf between halves: 0.20 mm
-- Module flange clearance (future): 0.40 mm
-
-## Surface Finish
-
-As-printed FDM; optional light sanding on exterior cosmetic faces.
-
-## Color
-
-Configurable at print time; not encoded in geometry.
-
-## Branding
-
-Silhouette inspired by the Apex Legends Havoc energy AR for proportion only.
-Not a licensed replica; names and game IP are not embedded in geometry.
-
-## Export Formats
-
-STEP and STL for:
-- full assembled shell (reference)
-- barrel / receiver / stock modules
-- left and right printable halves of each module
-
-## Known Dimensions
-
-See `dimensions.md` and `WaterGunShellParameters` in `src/parts/water_gun_shell.py`.
-
-## Assumptions
-
-- ASSUMPTION A1: ~2.5 gal go-kart style tank ≈ 12×8 in spun or similar rectangular plastic;
-  cavity uses 330 × 220 × 220 mm plus 10 mm clearance.
-- ASSUMPTION A2: Horizontal pump footprint ≈ 160 × 100 × 100 mm.
-- ASSUMPTION A3: Vertical pump footprint ≈ Ø100 × 180 mm tall.
-- ASSUMPTION A4: Stock battery/component bay ≈ 160 × 110 × 130 mm.
-- ASSUMPTION A5: Target process is FDM with a 0.4 mm nozzle; default material PETG.
-- ASSUMPTION A6: Aesthetic is Havoc-inspired only (long barrel, thick mid-body, stubby stock).
-
-## Unknowns
-
-- Exact Amazon tank SKU outer envelope and fill-cap location
-- Exact pump brand / mounting ear pattern
-- Battery pack chemistry and connector locations
-- Final module joint fasteners and sealing strategy
-- Whether a true left/right clam-shell or sectional length split is preferred for production
+P1S segments target Bambu Lab P1S 256³ bed.
 
 ## Excluded Hazardous Functionality
 
-No fuel, ignition, combustion, pressurized gas, flame-effect internals, or weapon functionality.
-Tank cavity is for inert water/fluid theatrical packing only.
+No fuel, ignition, combustion, pressurized gas for flame effects, high-voltage spark,
+flame-effect internals, or weapon functionality. Tank cavity is for inert water/fluid
+theatrical packing only. Barrel “hollow points” from the V3 reference map to water bore
++ inert LV conduit — not ignition hardware.
 
 ## Acceptance Criteria
 
-- Parametric CadQuery source regenerates
+- Parametric CadQuery source regenerates (Rev B)
 - Full shell and each module are valid single solids
-- Left/right halves of each module are valid single solids
+- Left/right halves and P1S segments are valid single solids
 - STEP and STL export succeed into `exports/`
 - Assumptions and revision documented
+- Tinkercad design **Flame V4 1.0_AI** can import the exploded / module STLs

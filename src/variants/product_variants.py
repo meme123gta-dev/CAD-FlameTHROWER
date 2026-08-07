@@ -22,9 +22,12 @@ def compact_shell() -> WaterGunShellParameters:
         tank_cavity_length_mm=290.0,
         tank_cavity_width_mm=200.0,
         tank_cavity_height_mm=190.0,
-        battery_cavity_length_mm=140.0,
-        battery_cavity_width_mm=100.0,
-        battery_cavity_height_mm=110.0,
+        tank_cradle_diameter_mm=190.0,
+        battery_cavity_length_mm=60.0,
+        battery_cavity_width_mm=90.0,
+        battery_cavity_height_mm=80.0,
+        motor_cavity_length_mm=85.0,
+        motor_cavity_diameter_mm=65.0,
     )
 
 

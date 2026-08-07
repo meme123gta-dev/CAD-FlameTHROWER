@@ -44,9 +44,9 @@ systems. Tank/pump regions are inert exclusion cavities.
 - The master design source is the CadQuery Python code in `src/`; STEP/STL files in
   `exports/` are outputs and are never the source of truth.
 - Tinkercad import of the exploded shell uses
-  `exports/stl/havoc_water_gun_shell_p1s_exploded_p1s_rev_a.stl` (see
-  `docs/tinkercad_p1s_exploded.md`). Active Tinkercad design name: **Flame V4 1.0**
-  (renamed from Super Jarv). An earlier exploded preview may still exist as
-  **Flame V3 1.0**. Cloud-agent Chrome needs an existing Autodesk session to edit
-  Tinkercad. Individual `p1s_*` segment STLs (not the exploded compound) are what get
-  sliced for the Bambu Lab P1S.
+  `exports/stl/havoc_water_gun_shell_p1s_exploded_p1s_rev_b.stl` (see
+  `docs/tinkercad_p1s_exploded.md`). Active Tinkercad design name: **Flame V4 1.0_AI**
+  (renamed from Super Jarv / Flame V4 1.0). An earlier hand-built exploded preview may
+  still exist as **Flame V3 1.0**. CadQuery Rev B is the master redesign (tank cradle,
+  motor bay, water bore + inert LV conduit). Individual `p1s_*` segment STLs (not the
+  exploded compound) are what get sliced for the Bambu Lab P1S.

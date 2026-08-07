@@ -1,5 +1,16 @@
 # Revision History
 
+## Revision B — 2026-08-07
+
+- Redesign informed by Flame V3 1.0 Tinkercad Havoc layout (cavity placement / panel language).
+- Cylindrical water-tank cradle + rectangular packing envelope in receiver.
+- Dedicated stock pump-motor bay + resized battery/LV bay.
+- Barrel dual channel: water-nozzle bore + inert LV wiring/sensor conduit (not HV ignition).
+- Hose tunnel from receiver pump bay into barrel hose dock.
+- Recessed side panel grooves on receiver and barrel; stepped muzzle ring; grip finger scoop.
+- Wall default 3.2 mm; P1S segment + exploded exports retained.
+- Target Tinkercad design name: **Flame V4 1.0_AI**.
+
 ## Revision A — 2026-08-03
 
 - Initial Havoc-inspired theatrical water-gun empty shell.
