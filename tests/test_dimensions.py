@@ -1,30 +1,46 @@
-"""Bounding-box and dimensional tests for the sample enclosure."""
+"""Bounding-box and dimensional tests for the water-gun empty shell."""
 
 from __future__ import annotations
 
 from src.common.validation import measure_bounding_box
-from src.parts.enclosure import EnclosureParameters, build_base, build_lid
+from src.parts.water_gun_shell import (
+    WaterGunShellParameters,
+    build_barrel,
+    build_receiver,
+    build_stock,
+    overall_length_mm,
+)
 
 
-def test_base_bounding_box_matches_parameters():
-    params = EnclosureParameters()
-    bbox = measure_bounding_box(build_base(params))
-
-    assert abs(bbox.xlen_mm - params.length_mm) < 0.05
-    assert abs(bbox.ylen_mm - params.width_mm) < 0.05
-    assert abs(bbox.zlen_mm - (params.height_mm + params.alignment_pin_height_mm)) < 0.20
+def test_receiver_length_matches_parameters():
+    params = WaterGunShellParameters()
+    bbox = measure_bounding_box(build_receiver(params))
+    assert abs(bbox.xlen_mm - params.receiver_length_mm) < 0.5
 
 
-def test_lid_bounding_box_matches_parameters():
-    params = EnclosureParameters()
-    bbox = measure_bounding_box(build_lid(params))
-
-    assert abs(bbox.xlen_mm - params.length_mm) < 0.05
-    assert abs(bbox.ylen_mm - params.width_mm) < 0.05
-    assert abs(bbox.zlen_mm - (params.lid_thickness_mm + params.lid_lip_height_mm)) < 0.20
+def test_barrel_length_matches_parameters():
+    params = WaterGunShellParameters()
+    bbox = measure_bounding_box(build_barrel(params))
+    assert abs(bbox.xlen_mm - params.barrel_length_mm) < 0.5
 
 
-def test_custom_width_propagates():
-    params = EnclosureParameters(width_mm=75.0)
-    bbox = measure_bounding_box(build_base(params))
-    assert abs(bbox.ylen_mm - 75.0) < 0.05
+def test_stock_length_near_parameters():
+    params = WaterGunShellParameters()
+    bbox = measure_bounding_box(build_stock(params))
+    # Butt pad can extend a few mm past stock_length.
+    assert bbox.xlen_mm >= params.stock_length_mm - 0.5
+    assert bbox.xlen_mm <= params.stock_length_mm + 30.0
+
+
+def test_overall_length_sum():
+    params = WaterGunShellParameters()
+    expected = (
+        params.stock_length_mm + params.receiver_length_mm + params.barrel_length_mm
+    )
+    assert abs(overall_length_mm(params) - expected) < 1e-6
+
+
+def test_custom_barrel_length_propagates():
+    params = WaterGunShellParameters(barrel_length_mm=500.0)
+    bbox = measure_bounding_box(build_barrel(params))
+    assert abs(bbox.xlen_mm - 500.0) < 0.5

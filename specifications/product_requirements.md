@@ -1,52 +1,62 @@
-# Part Requirements
+# Part Requirements — Havoc Water-Gun Empty Shell Rev A
 
 ## Part Name
 
-Low-voltage electronics enclosure (base + lid)
+Havoc-inspired theatrical water-gun empty shell (barrel + receiver + stock)
 
 ## Purpose
 
-Protective two-piece housing for low-voltage control electronics, connectors, and cable routing in consumer product prototypes and display mockups.
+Printable exterior enclosure / prop shell for a theatrical or display water-gun build.
+The shell provides packing volume for a ~2.5-gallon fluid tank, horizontal and vertical
+pump footprints, and a stubby stock bay for batteries / low-voltage components.
 
 ## Safe Scope Classification
 
-Permitted: exterior shell, lid, mounting bosses for heat-set inserts, cable-entry opening for low-voltage wiring, alignment features, cosmetic rounded corners.
+Permitted:
+- Exterior shell modules (barrel shroud, receiver, stock)
+- Cosmetic empty bore and grip stub
+- Placeholder exclusion cavities for tank and pumps
+- Printable left/right halves
 
-Excluded: fuel storage, pressurization, ignition, combustion, flame projection, pressure vessels, burner/nozzle geometry, or any weapon-related functionality.
+Excluded:
+- Fuel storage systems, pressurization, ignition, combustion, flame projection
+- Weapon functionality, projectile launch systems, or pressurized-gas internals
+- Functional pump / plumbing design (cavities are packing envelopes only)
 
-## Overall Dimensions
+## Overall Dimensions (default)
 
-- Length: 160.0 mm
-- Width: 90.0 mm
-- Height (base): 50.0 mm
-- Lid thickness: 3.2 mm
+- Overall length: 1000.0 mm (stock 200 + receiver 380 + barrel 420)
+- Overall width: ~280 mm at receiver (cheek plate adds ~15 mm)
+- Overall height: ~410 mm including grip stub and top rail
 
 ## Maximum Envelope
 
-160 × 90 × 57.2 mm assembled without explode gap (base height + lid thickness; pins nest into lid).
+Approximately 1004 × 295 × 410 mm for the assembled reference solid.
 
 ## Mating Components
 
-- Enclosure base
-- Enclosure lid
-- M3 screws into heat-set inserts
-- Optional low-voltage cable through side port
+- Barrel module (hollow shroud)
+- Receiver module (tank + dual pump cavities)
+- Stock module (battery / component bay)
+- Left/right printable halves of each module
 
 ## Mounting Method
 
-Four M3 heat-set insert bosses in the base; counterbored clearance holes in the lid.
+Iteration 1 is an empty shell only. Mating flanges / fasteners for module joints are
+stub parameters (`flange_depth_mm`, `flange_clearance_mm`) reserved for a later revision.
 
 ## Material
 
-Default assumption: PETG. PLA acceptable for visual prototypes.
+Default assumption: PETG. PLA acceptable for visual fit prototypes.
 
 ## Manufacturing Process
 
-FDM 3D printing
+FDM 3D printing. Print left/right halves flat on the split face when possible.
 
 ## Printer
 
-Generic FDM, 0.4 mm nozzle
+Generic FDM; halves target ~220–300 mm bed class. Full modules may require a large bed
+or further segmentation in a later revision.
 
 ## Nozzle Diameter
 
@@ -54,16 +64,18 @@ Generic FDM, 0.4 mm nozzle
 
 ## Expected Loads
 
-Prototype handling loads only. Structural capacity not verified.
+Prototype / display handling only. Structural capacity not verified.
 
 ## Environmental Conditions
 
 Indoor prototype / display use unless material and sealing are re-specified.
+Water contact sealing is out of scope for Rev A.
 
 ## Required Clearances
 
-- Lid fit clearance: 0.35 mm
-- Alignment socket clearance: 0.25 mm radial
+- Tank packing clearance: 10.0 mm around nominal tank exclusion
+- Split kerf between halves: 0.20 mm
+- Module flange clearance (future): 0.40 mm
 
 ## Surface Finish
 
@@ -75,36 +87,47 @@ Configurable at print time; not encoded in geometry.
 
 ## Branding
 
-None in Rev A.
+Silhouette inspired by the Apex Legends Havoc energy AR for proportion only.
+Not a licensed replica; names and game IP are not embedded in geometry.
 
 ## Export Formats
 
-STEP and STL for base and lid.
+STEP and STL for:
+- full assembled shell (reference)
+- barrel / receiver / stock modules
+- left and right printable halves of each module
 
 ## Known Dimensions
 
-See `dimensions.md` and `EnclosureParameters` in `src/parts/enclosure.py`.
+See `dimensions.md` and `WaterGunShellParameters` in `src/parts/water_gun_shell.py`.
 
 ## Assumptions
 
-- ASSUMPTION A1: Target process is FDM with a 0.4 mm nozzle.
-- ASSUMPTION A2: Default material is PETG.
-- ASSUMPTION A3: M3 heat-set insert hole diameter 4.2 mm is a starting value and supplier-dependent.
+- ASSUMPTION A1: ~2.5 gal go-kart style tank ≈ 12×8 in spun or similar rectangular plastic;
+  cavity uses 330 × 220 × 220 mm plus 10 mm clearance.
+- ASSUMPTION A2: Horizontal pump footprint ≈ 160 × 100 × 100 mm.
+- ASSUMPTION A3: Vertical pump footprint ≈ Ø100 × 180 mm tall.
+- ASSUMPTION A4: Stock battery/component bay ≈ 160 × 110 × 130 mm.
+- ASSUMPTION A5: Target process is FDM with a 0.4 mm nozzle; default material PETG.
+- ASSUMPTION A6: Aesthetic is Havoc-inspired only (long barrel, thick mid-body, stubby stock).
 
 ## Unknowns
 
-- Exact PCB outline and connector locations
-- Final insert brand / datasheet hole size
-- Target printer shrinkage calibration
+- Exact Amazon tank SKU outer envelope and fill-cap location
+- Exact pump brand / mounting ear pattern
+- Battery pack chemistry and connector locations
+- Final module joint fasteners and sealing strategy
+- Whether a true left/right clam-shell or sectional length split is preferred for production
 
 ## Excluded Hazardous Functionality
 
 No fuel, ignition, combustion, pressurized gas, flame-effect internals, or weapon functionality.
+Tank cavity is for inert water/fluid theatrical packing only.
 
 ## Acceptance Criteria
 
 - Parametric CadQuery source regenerates
-- Base and lid are valid single solids
-- STEP and STL export succeed
-- Bounding-box tests pass
+- Full shell and each module are valid single solids
+- Left/right halves of each module are valid single solids
+- STEP and STL export succeed into `exports/`
 - Assumptions and revision documented

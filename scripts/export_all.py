@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export STEP and STL files for all sample parts."""
+"""Export STEP and STL files for the water-gun empty shell."""
 
 from __future__ import annotations
 
@@ -12,19 +12,19 @@ if str(ROOT) not in sys.path:
 
 from scripts.build_all import build_all  # noqa: E402
 from scripts.generate_report import write_build_report  # noqa: E402
-from src.parts.enclosure import EnclosureParameters, export_enclosure  # noqa: E402
+from src.parts.water_gun_shell import WaterGunShellParameters, export_shell  # noqa: E402
 
 
 def main() -> int:
-    params = EnclosureParameters()
+    params = WaterGunShellParameters()
     build_result = build_all(params)
-    exports = export_enclosure(params, stl_quality="normal")
+    exports = export_shell(params, stl_quality="normal", include_halves=True)
 
     report_path = write_build_report(
         params=params,
-        base_validation=build_result["base_validation"],
-        lid_validation=build_result["lid_validation"],
+        validations=build_result["validations"],
         exports=exports,
+        envelope_mm=build_result["envelope_mm"],
     )
 
     print("Export succeeded.")
