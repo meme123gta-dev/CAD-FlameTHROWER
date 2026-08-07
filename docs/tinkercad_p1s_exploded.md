@@ -30,8 +30,8 @@ Import these into **one** new 3D Design (mm units):
 
 ## Fast path (one import)
 
-1. New Tinkercad 3D Design → name it **`Inflammatory Attempt Number Four AI`**
-   (alternate label: `Havoc Water Gun — P1S Exploded`)
+1. Open (or create) the Tinkercad 3D Design named **`Flame V4 1.0`**
+   (renamed from `Super Jarv`; older exploded preview may live in `Flame V3 1.0`)
 2. **Import** → choose `havoc_water_gun_shell_p1s_exploded_p1s_rev_a.stl`
    Absolute path in this repo:
    `exports/stl/havoc_water_gun_shell_p1s_exploded_p1s_rev_a.stl`

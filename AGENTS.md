@@ -45,8 +45,8 @@ systems. Tank/pump regions are inert exclusion cavities.
   `exports/` are outputs and are never the source of truth.
 - Tinkercad import of the exploded shell uses
   `exports/stl/havoc_water_gun_shell_p1s_exploded_p1s_rev_a.stl` (see
-  `docs/tinkercad_p1s_exploded.md`). Preferred Tinkercad design name:
-  **Inflammatory Attempt Number Four AI**. Cloud-agent Chrome has no Autodesk session —
-  a human must Sign In via the Desktop pane before the agent can rename/import into
+  `docs/tinkercad_p1s_exploded.md`). Active Tinkercad design name: **Flame V4 1.0**
+  (renamed from Super Jarv). An earlier exploded preview may still exist as
+  **Flame V3 1.0**. Cloud-agent Chrome needs an existing Autodesk session to edit
   Tinkercad. Individual `p1s_*` segment STLs (not the exploded compound) are what get
   sliced for the Bambu Lab P1S.
