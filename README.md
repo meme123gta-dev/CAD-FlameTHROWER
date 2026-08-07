@@ -31,6 +31,9 @@ python scripts/export_all.py
 
 # Run tests
 pytest
+
+# Export Amazon tank + motor reference solids (for Tinkercad / fit checks)
+python scripts/export_hardware.py
 ```
 
 ### Virtual environment notes

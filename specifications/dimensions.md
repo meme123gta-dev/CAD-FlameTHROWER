@@ -65,6 +65,28 @@ Inspired by the Flame V3 1.0 Tinkercad layout (Havoc silhouette / cavity placeme
 - Barrel bore = water-nozzle path; barrel conduit = **inert low-voltage wiring/sensor chase**
 - **Not** fuel, ignition, high-voltage spark, combustion, or flame systems
 
+## Known motor/pump hardware (ASIN B07NYZ2CGK)
+
+FTVOGUE VN-C4 oilless vacuum pump. Full write-up:
+`specifications/hardware_motor_B07NYZ2CGK.md`.
+
+| Spec | Value |
+|------|------:|
+| Overall L × W × H | **90 × 44 × 110 mm** |
+| Hose barb OD | **8 mm** |
+| Rated power / voltage | 42 W / DC 12 V (9–14 V working) |
+| Flow / vacuum | 40 L/min / −85 kPa |
+
+**Port roles (seller installation diagram):**
+
+| Role | Label | Location in CadQuery model |
+|------|-------|----------------------------|
+| **PICKUP** | AIR INLET | Pump-head face toward motor (+X) |
+| **OUTPUT** | AIR OUTLET | Top of pump head (+Z) |
+
+CadQuery: `src/parts/hardware_motor.py` →
+`exports/stl/hardware_motor_vacuum_pump_b07nyz2cgk_rev_a.stl`
+
 ## Known tank hardware (ASIN B0BSDYNDQP)
 
 Seller-listed exact size for the Amazon tank the build must fit.

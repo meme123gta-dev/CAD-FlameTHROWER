@@ -14,6 +14,11 @@
   **Ø3.00 in × 10.00 in (76.2 × 254.0 mm), 0.31 gal approx** — see
   `specifications/hardware_tank_B0BSDYNDQP.md`. Shell packing cavity not yet
   resized to this SKU (still oversized Rev B defaults).
+- Documented Amazon motor/pump ASIN **B07NYZ2CGK** (FTVOGUE VN-C4):
+  **90 × 44 × 110 mm**, 8 mm hose barbs; **PICKUP = AIR INLET** (toward motor),
+  **OUTPUT = AIR OUTLET** (top). CadQuery reference solids:
+  `src/parts/hardware_tank.py`, `src/parts/hardware_motor.py` +
+  `scripts/export_hardware.py`.
 
 ## Revision A — 2026-08-03
 

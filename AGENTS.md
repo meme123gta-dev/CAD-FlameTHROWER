@@ -55,3 +55,10 @@ systems. Tank/pump regions are inert exclusion cavities.
   `specifications/hardware_tank_B0BSDYNDQP.md`. Used only as a water/fluid packing
   reference — do not design fuel/ignition systems. Rev B cavities are still oversized
   vs this SKU until a dedicated packing resize.
+- Target motor/pump ASIN **B07NYZ2CGK** (FTVOGUE VN-C4): **90 × 44 × 110 mm**,
+  8 mm barbs. **PICKUP = AIR INLET** (pump-head face toward motor);
+  **OUTPUT = AIR OUTLET** (top of pump head). Spec:
+  `specifications/hardware_motor_B07NYZ2CGK.md`. Export both hardware solids with
+  `python scripts/export_hardware.py` → `exports/stl/hardware_tank_*` and
+  `exports/stl/hardware_motor_*`.
+
