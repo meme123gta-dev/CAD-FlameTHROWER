@@ -1,0 +1,169 @@
+{
+  "build_timestamp_utc": "20260803T164350Z",
+  "git_commit": "0bf0881",
+  "product": "havoc_water_gun_shell",
+  "revision": "a",
+  "parameters": {
+    "receiver_length_mm": 380.0,
+    "receiver_width_mm": 280.0,
+    "receiver_height_mm": 280.0,
+    "barrel_length_mm": 420.0,
+    "barrel_outer_diameter_front_mm": 72.0,
+    "barrel_outer_diameter_rear_mm": 92.0,
+    "barrel_bore_diameter_mm": 48.0,
+    "barrel_shroud_width_mm": 110.0,
+    "barrel_shroud_height_mm": 100.0,
+    "stock_length_mm": 200.0,
+    "stock_width_mm": 150.0,
+    "stock_height_mm": 170.0,
+    "wall_thickness_mm": 3.0,
+    "corner_radius_mm": 8.0,
+    "tank_cavity_length_mm": 330.0,
+    "tank_cavity_width_mm": 220.0,
+    "tank_cavity_height_mm": 220.0,
+    "tank_clearance_mm": 10.0,
+    "tank_access_open_top": true,
+    "h_pump_length_mm": 160.0,
+    "h_pump_width_mm": 100.0,
+    "h_pump_height_mm": 100.0,
+    "v_pump_diameter_mm": 100.0,
+    "v_pump_height_mm": 180.0,
+    "battery_cavity_length_mm": 160.0,
+    "battery_cavity_width_mm": 110.0,
+    "battery_cavity_height_mm": 130.0,
+    "grip_length_mm": 120.0,
+    "grip_width_mm": 42.0,
+    "grip_height_mm": 115.0,
+    "grip_offset_x_mm": -40.0,
+    "rail_length_mm": 260.0,
+    "rail_width_mm": 28.0,
+    "rail_height_mm": 18.0,
+    "flange_depth_mm": 12.0,
+    "flange_clearance_mm": 0.4,
+    "split_kerf_mm": 0.2,
+    "revision": "a",
+    "overall_length_mm": 1000.0,
+    "overall_width_mm": 280.0,
+    "overall_height_mm": 413.0,
+    "tank_volume_gal_nominal": 2.5,
+    "tank_reference_inches": {
+      "spun_approx_l_in": 12.0,
+      "spun_approx_d_in": 8.0,
+      "length_mm": 304.79999999999995,
+      "diameter_mm": 203.2
+    }
+  },
+  "envelope_mm": {
+    "length": 1000.0,
+    "width": 280.0,
+    "height": 413.0
+  },
+  "parts": {
+    "receiver": {
+      "solid_count": 1,
+      "volume_mm3": 2078733.642919654,
+      "bounding_box_mm": {
+        "x": 380.0,
+        "y": 295.0,
+        "z": 410.0
+      }
+    },
+    "barrel": {
+      "solid_count": 1,
+      "volume_mm3": 792951.8156750225,
+      "bounding_box_mm": {
+        "x": 420.00000009999997,
+        "y": 112.00000020000002,
+        "z": 128.0
+      }
+    },
+    "stock": {
+      "solid_count": 1,
+      "volume_mm3": 2940704.4936248306,
+      "bounding_box_mm": {
+        "x": 204.0,
+        "y": 166.0,
+        "z": 170.0
+      }
+    },
+    "full": {
+      "solid_count": 1,
+      "volume_mm3": 5812390.022271855,
+      "bounding_box_mm": {
+        "x": 1004.0,
+        "y": 295.0,
+        "z": 410.0
+      }
+    },
+    "barrel_left": {
+      "solid_count": 1,
+      "volume_mm3": 395315.4986101702,
+      "bounding_box_mm": {
+        "x": 420.00000009999997,
+        "y": 55.9000001,
+        "z": 128.0
+      }
+    },
+    "barrel_right": {
+      "solid_count": 1,
+      "volume_mm3": 395315.4986107018,
+      "bounding_box_mm": {
+        "x": 420.00000009999997,
+        "y": 55.900000100000035,
+        "z": 128.0
+      }
+    },
+    "receiver_left": {
+      "solid_count": 1,
+      "volume_mm3": 835775.6634627883,
+      "bounding_box_mm": {
+        "x": 380.0,
+        "y": 139.9,
+        "z": 410.0
+      }
+    },
+    "receiver_right": {
+      "solid_count": 1,
+      "volume_mm3": 1241726.7794568697,
+      "bounding_box_mm": {
+        "x": 380.0,
+        "y": 154.9,
+        "z": 410.0
+      }
+    },
+    "stock_left": {
+      "solid_count": 1,
+      "volume_mm3": 1468992.996812416,
+      "bounding_box_mm": {
+        "x": 204.0,
+        "y": 82.9,
+        "z": 170.0
+      }
+    },
+    "stock_right": {
+      "solid_count": 1,
+      "volume_mm3": 1468992.9968124162,
+      "bounding_box_mm": {
+        "x": 204.0,
+        "y": 82.9,
+        "z": 170.0
+      }
+    }
+  },
+  "exports": {},
+  "validation_status": "pass",
+  "warnings": [
+    "Tank and pump footprints are ASSUMED \u2014 confirm against your exact hardware.",
+    "PROTOTYPE ONLY \u2014 STRUCTURAL CAPACITY NOT VERIFIED",
+    "Module joint fasteners/seals are not finalized in Rev A.",
+    "Empty shell only: no fuel, ignition, combustion, or weapon systems."
+  ],
+  "assumptions": [
+    "ASSUMPTION A1: ~2.5 gal tank cavity sized from common 12x8 in go-kart tanks.",
+    "ASSUMPTION A2: Horizontal pump footprint 160x100x100 mm.",
+    "ASSUMPTION A3: Vertical pump footprint \u00d8100x180 mm.",
+    "ASSUMPTION A4: Stock battery bay 160x110x130 mm.",
+    "ASSUMPTION A5: FDM / PETG prototype shell only.",
+    "ASSUMPTION A6: Havoc-inspired silhouette; not a licensed replica."
+  ]
+}
